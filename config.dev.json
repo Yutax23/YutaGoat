@@ -17,15 +17,15 @@
     "ignoreCommand": []
   },
   "adminBot": [
-    "YOUR UID"
+    "100006195543459"
   ],
   "whiteListMode": {
     "enable": false,
     "whiteListIds": [],
     "notes": "if you enable this feature, only the ids in the whiteListIds section can use the bot"
   },
-  "nickNameBot": "BOT NAME",
-  "prefix": "-",
+  "nickNameBot": "GoatBot",
+  "prefix": ".",
   "database": {
     "type": "sqlite",
     "uriMongodb": "",
@@ -79,10 +79,10 @@
   },
   "autoRefreshFbstate": true,
   "autoReloginWhenChangeAccount": false,
-  "autoRestartWhenListenMqttError": false,
+  "autoRestartWhenListenMqttError": true,
   "restartListenMqtt": {
     "enable": true,
-    "timeRestart": 3600000,
+    "timeRestart": 30000,
     "delayAfterStopListening": 2000,
     "logNoti": true,
     "notes": "the value of timeRestart and delayAfterStopListening is milisecond, You shouldn't edit this if you don't know what it is"
