@@ -28,7 +28,7 @@ module.exports.config = {
   longDescription: {
     en: "Slot game.",
   },
-  countdown: 15,
+  countDown: 15,
   category: "Games",
 };
 
