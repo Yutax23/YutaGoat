@@ -4,6 +4,7 @@ module.exports = {
      aliases: ["bljk"],
     version: "1.0",
     author: "Abdul Kaiyum",
+    countDown: 15,
     shortDescription: {
       en: "Enjoy the Blackjack game with realistic features and a chance to win!",
     },
