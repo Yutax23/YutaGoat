@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const Prefixes = [
-  'ailex',
+  'ken',
   'ask',
   'Ask'
 ];
@@ -12,7 +12,7 @@ module.exports = {
     version: '2.6.2',
     author: 'JV Barcenas | Shikaki', // do not change
     role: 0,
-    category: 'ai',
+    category: 'AI',
     shortDescription: {
       en: 'Asks AI for an answer.',
     },
