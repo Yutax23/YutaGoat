@@ -70,7 +70,7 @@ module.exports = {
 
 
 
-      msg += `╔═══════════╗\n      BOTniJunied ❤‍🔥 \n╚═══════════╝`; // replace with your name 
+      msg += `╔═══════════╗\n      Kenjaku Bot ❤‍🔥 \n╚═══════════╝`; // replace with your name 
 
 
 
@@ -100,9 +100,9 @@ module.exports = {
 
           const names = categories[category].commands.sort();
 
-          for (let i = 0; i < names.length; i += 3) {
+          for (let i = 0; i < names.length; i += 1) {
 
-            const cmds = names.slice(i, i + 3).map((item) => `✰${item}`);
+            const cmds = names.slice(i, i + 1).map((item) => `-${item},`);
 
             msg += `\n│ ${cmds.join(" ".repeat(Math.max(1, 10 - cmds.join("").length)))}`;
 
@@ -168,11 +168,9 @@ module.exports = {
 
   ├── INFO
 
-  │ Description: ${longDescription}
+  │ Description: ${shortDescription}
 
   │ Other names: ${configCommand.aliases ? configCommand.aliases.join(", ") : "Do not have"}
-
-  │ Other names in your group: Do not have
 
   │ Version: ${configCommand.version || "1.0"}
 
@@ -230,4 +228,4 @@ function roleTextToString(roleText) {
 
   }
 
-          }
+      }
