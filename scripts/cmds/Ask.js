@@ -43,8 +43,7 @@ module.exports = {
 
       api.setMessageReaction("⌛", event.messageID, () => { }, true);
 
-      let updatedPrompt = `Follow as written: Mostly answer in 1 word or 1 sentene. For any affirmation to your answers only yes or no. Answer in 1-2 sentences for generic questions and longer for complex questions. Mostly stick to 1 sentences unless asked long answers. Now: ${prompt}`;
-
+      let updatedPrompt = ``;
       const response = await axios.get(`https://pi.aliestercrowley.com/api?prompt=${encodeURIComponent(updatedPrompt)}&uid=${event.senderID}`);
 
       if (response.status !== 200 || !response.data) {
