@@ -55,7 +55,7 @@ module.exports = {
 
       message.reply(replyMessage, (err, info) => {
         global.GoatBot.onReply.set(info.messageID, {
-          commandName: "cmdstore",
+          commandName: "cmst",
           messageID: info.messageID,
           author: event.senderID,
           commands,
