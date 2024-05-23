@@ -15,7 +15,7 @@ module.exports = {
     longDescription: {
       en: 'Ai',
     },
-    category: 'AI',
+    category: '🤖| AI',
     guide: {
       en: '{p}openai message / onReply',
     },
