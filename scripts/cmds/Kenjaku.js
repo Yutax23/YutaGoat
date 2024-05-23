@@ -32,7 +32,7 @@ module.exports = {
 
     },
 
-    category: "ai",
+    category: "🤖| AI",
 
     guide: "",
 
