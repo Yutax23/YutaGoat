@@ -44,7 +44,7 @@ module.exports = {
     author: "Vex_Kshitiz",
     role: 0,
     longDescription: "Anthropic's AI assistant Claude.",
-    category: "ai",
+    category: 🤖| AI",
     guide: {
       en: "{p}claude [prompt]"
     }
