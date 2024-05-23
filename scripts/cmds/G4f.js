@@ -5,7 +5,7 @@ module.exports = {
         version: "1.0.0",
         author: "Null69",
         role: 0,
-        category: "AI",
+        category: "🤖| AI",
         shortDescription: {
             en: "Interact with AI using G4F library",
             vi: "Tương tác với trí tuệ nhân tạo sử dụng thư viện G4F"
