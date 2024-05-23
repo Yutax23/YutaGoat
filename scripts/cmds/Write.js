@@ -18,7 +18,7 @@ module.exports = {
     longDescription: {
       en: "Write text on an image and send. Reply to a photo with 'text1 | text2'."
     },
-    category: "fun",
+    category: "🖼️| IMAGE",
     guide: {
       en: "{p}write reply to photo text1 | text2"
     }
