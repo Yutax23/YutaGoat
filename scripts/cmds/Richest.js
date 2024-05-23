@@ -3,7 +3,7 @@ module.exports = {
     name: "richest",
     version: "1.1",
     author: "Shikaki",
-    category: "economy",
+    category: "💰| ECONOMY",
     shortDescription: {
       vi: "Xem 10 người giàu nhất",
       en: "View the top 10 richest people",
