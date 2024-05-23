@@ -6,7 +6,7 @@ module.exports = {
     author: 'Samir Œ',
     shortDescription: "Swap faces in two images",
     longDescription: "Swap faces in two images provided as attachments.",
-    category: "IMAGE"
+    category: "🖼️| IMAGE"
   },
 
   onStart: async function({ message, event, api }) {
