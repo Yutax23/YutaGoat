@@ -11,7 +11,7 @@ module.exports = {
     role: 0,
     shortDescription: "Get audio from Spotify",
     longDescription: "Get audio from Spotify",
-    category: "music",
+    category: "🎧| MUSIC",
     guide: "{pn} reply or add link of image"
   },
 
