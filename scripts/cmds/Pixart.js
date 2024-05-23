@@ -10,7 +10,7 @@ module.exports = {
     role: 2,
     shortDescription: "image generator",
     longDescription: "",
-    category: "𝗔𝗜-𝗚𝗘𝗡𝗘𝗥𝗔𝗧𝗘𝗗",
+    category: "🖼️| IMAGE",
     guide: {
       en: "{pn} <prompt>  "
     }
