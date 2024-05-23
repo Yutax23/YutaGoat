@@ -394,7 +394,7 @@ const a = {
 
   longDescription: "Chat with gemini",
 
-  category: "ai",
+  category: "🤖| AI",
 
   guide: {
 
