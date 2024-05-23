@@ -8,7 +8,7 @@ module.exports = {
         version: "1.0",
         shortDescription: "Search for images using Pexels API",
         longDescription: "Search for high-quality images using Pexels API and return a specified number of results.",
-        category: "utility",
+        category: "🖼️| IMAGE",
         guide: {
             vi: "",
             en: ""
