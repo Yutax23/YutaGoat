@@ -9,7 +9,7 @@ module.exports = {
         role: 0,
         countDown: 10,
         reward: Math.floor(Math.random() * (100 - 50 + 1) + 50),
-        category: "games",
+        category: "🎮| GAMES",
         shortDescription: {
             en: "Unscramble the given word within a time limit"
         },
