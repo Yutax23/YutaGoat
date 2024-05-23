@@ -13,7 +13,7 @@ module.exports = {
     countDown: 5,
     shortDescription: { en: "dalle3 image generator" },
     longDescription: { en: "dalle3 is a image generator powdered by OpenAi" },
-    category: "IMAGE",
+    category: "🖼️| IMAGE",
     guide: { en: "{prefix}dalle <search query>" }
   },
 
