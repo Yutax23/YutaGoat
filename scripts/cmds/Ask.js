@@ -12,7 +12,7 @@ module.exports = {
     version: '2.6.2',
     author: 'JV Barcenas | Shikaki', // do not change
     role: 0,
-    category: 'AI',
+    category: '🤖| AI',
     shortDescription: {
       en: 'Asks AI for an answer.',
     },
