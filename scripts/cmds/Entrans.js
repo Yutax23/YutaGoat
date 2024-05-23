@@ -6,7 +6,7 @@ module.exports = {
     version: '1.0',
     author: 'Null69',
     role: 0,
-    category: 'AI',
+    category: '🤖| AI',
     shortDescription: {
       en: `Translate into error-free and publishable English.`
     },
@@ -20,12 +20,12 @@ module.exports = {
 
   onStart: async function ({ api, event, args, usersData, message }) {
     try {
-      const query = args.join(" ") || "hello";
+      const query = event.messageReply.body;
       const { name } = (await usersData.get(event.senderID));
 
       if (query) {
         api.setMessageReaction("🟡", event.messageID, (err) => console.log(err), true);
-        const processingMessage = await message.reply("Asking English Translator. Please wait a moment...");
+        const processingMessage = await message.reply(" Please wait a moment...");
 
         const apiUrl = `https://liaspark.chatbotcommunity.ltd/@unregistered/api/englishtranslator?key=j86bwkwo-8hako-12C&userName=${encodeURIComponent(name || "a user")}&query=${encodeURIComponent(query)}`;
         const response = await axios.get(apiUrl);
