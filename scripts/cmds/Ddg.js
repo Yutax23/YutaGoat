@@ -12,7 +12,7 @@ module.exports = {
     shortDescription: {
       en: "Search images"
     },
-    category: "image",
+    category: "🖼️| IMAGE",
     guide: {
       en: "{prefix}ddg <search query> -<number of images>"
     }
