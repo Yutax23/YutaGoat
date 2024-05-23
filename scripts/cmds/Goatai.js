@@ -6,7 +6,7 @@ module.exports = {
     version: '1.0',
     author: 'Liane Cagara',
     role: 0,
-    category: 'Ai-Chat',
+    category: '🤖| AI',
     shortDescription: {
       en: `A bot that generates Goatbot Command module. Note: Not supported all of goatbot features, can make mistakes.`
     },
