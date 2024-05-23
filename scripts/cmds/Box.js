@@ -11,7 +11,7 @@ const fs = require("fs");
                  role: 1, 
                  shortDescription: "set admin/change group photo,emoji,name", 
                  longDescription: "", 
-                 category: "admin", 
+                 category: "👤| OWNER", 
                  guide:  { 
                          vi: "{pn} [admin,emoji,image,name]", 
                          en: "{pn} name <name> to change box mame\n{pn} emoji <emoji> to change box emoji\n{pn} image <reply to image> to chnge box image\n{pn} add [@tag] to add group admin \n{pn} del [@tag]  to remove group admin \n{pn} info to see group info" 
