@@ -72,7 +72,7 @@ module.exports = {
 
 
 
-      msg += `╔═══════════╗\n     ${font.bold(botname)} \n╚═══════════╝\nCredits: GoatBot V2`; // replace with your name 
+      msg += `╔═══════════╗\n   ${font.bold(botname)} \n╚═══════════╝\nCredits: GoatBot V2`; // replace with your name 
 
 
 
