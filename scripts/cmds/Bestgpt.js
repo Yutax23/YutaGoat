@@ -6,7 +6,7 @@ module.exports = {
     version: '1.0',
     author: 'Liane',
     role: 0,
-    category: '🤖| IMAGE',
+    category: '🤖| AI',
     shortDescription: {
       en: `Best ChatGPT Ever!`
     },
