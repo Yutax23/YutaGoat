@@ -1,3 +1,4 @@
+const font = require("fontstyles");
 const fs = require("fs-extra");
 
 const axios = require("axios");
@@ -38,7 +39,7 @@ module.exports = {
 
     },
 
-    category: "info",
+    category: "🔧| UTILITY",
 
     guide: {
 
@@ -65,12 +66,13 @@ module.exports = {
     if (args.length === 0) {
 
       const categories = {};
+      const botname = "🤖: SUKUNA AI";
 
       let msg = "";
 
 
 
-      msg += `╔═══════════╗\n      Kenjaku Bot ❤‍🔥 \n╚═══════════╝`; // replace with your name 
+      msg += `╔═══════════╗\n     ${font.bold(botname)} \n╚═══════════╝\nCredits: GoatBot V2`; // replace with your name 
 
 
 
@@ -94,7 +96,7 @@ module.exports = {
 
         if (category !== "info") {
 
-          msg += `\n╭───────────\n│ 『  ${category.toUpperCase()}  』`;
+          msg += `\n╭───────────\n│ 『  ${font.bold(category.toUpperCase())}  』`;
 
 
 
@@ -102,9 +104,9 @@ module.exports = {
 
           for (let i = 0; i < names.length; i += 1) {
 
-            const cmds = names.slice(i, i + 1).map((item) => `-${item},`);
+            const cmds = names.slice(i, i + 1).map((item) => `—${item}`);
 
-            msg += `\n│ ${cmds.join(" ".repeat(Math.max(1, 10 - cmds.join("").length)))}`;
+            msg += `\n│ ${font.monospace(cmds.join(" ".repeat(Math.max(1, 10 - cmds.join("").length))))}`;
 
           }
 
@@ -168,7 +170,7 @@ module.exports = {
 
   ├── INFO
 
-  │ Description: ${shortDescription}
+  │ Description: ${longDescription}
 
   │ Other names: ${configCommand.aliases ? configCommand.aliases.join(", ") : "Do not have"}
 
