@@ -10,7 +10,7 @@ module.exports = {
     role: 0,
     shortDescription: "download content by link",
     longDescription: "download content",
-    category: "download",
+    category: "🔧| UTILITY",
     guide: "{pn} link"
   },
  
