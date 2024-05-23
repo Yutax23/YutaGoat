@@ -6,7 +6,7 @@ module.exports = {
     version: '1.0',
     author: 'Null69',
     role: 0,
-    category: 'AI',
+    category: '🤖| AI',
     shortDescription: {
       en: `Just an AI`
     },
@@ -41,7 +41,7 @@ module.exports = {
 
 𝙵𝚘𝚕𝚕𝚘𝚠:
 facebook.com/nealiana.kaye.cagara`;
-          trimmedMessage = trimmedMessage.replace(mod, 'Ken GPT');
+          trimmedMessage = trimmedMessage.replace(mod, '');
           await message.reply(trimmedMessage);
           api.setMessageReaction("🟢", event.messageID, (err) => console.log(err), true);
 
