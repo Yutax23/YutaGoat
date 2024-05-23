@@ -12,7 +12,7 @@ module.exports = {
     role: 0,
     shortDescription: "prodia",
     longDescription: "Generate images using Prodia",
-    category: "utility",
+    category: "🖼️| IMAGE",
     guide: {
       en: "{p} prodia [prompt] | [model_id]"
     }
