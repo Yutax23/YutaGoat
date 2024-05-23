@@ -44,7 +44,7 @@ module.exports = {
     author: "Vex_Kshitiz",
     role: 0,
     longDescription: "Liner AI assistant.",
-    category: "ai",
+    category: "🤖| AI",
     guide: {
       en: "{p}liner [prompt]"
     }
