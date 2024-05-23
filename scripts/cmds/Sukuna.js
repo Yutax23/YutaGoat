@@ -6,7 +6,7 @@ const Prefixes = [
 
 module.exports = {
   config: {
-    name: "Sukuna",
+    name: "sukuna",
     version: "1.0",
     author: "Rishad",
     countDown: 5,
@@ -19,7 +19,7 @@ module.exports = {
       vi: "chat with Sukuna",
       en: "chat with Sukuna"
     },
-    category: "chat",
+    category: "🤖| AI",
     guide: {
       en: "{pn} 'prompt'\nexample:\n{pn} hi there \nyou can reply to chat\nyou can delete conversations by replying clear"
     }
