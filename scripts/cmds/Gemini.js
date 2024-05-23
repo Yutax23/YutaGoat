@@ -1,84 +1,28 @@
-const fs = require("fs");
-
-
-
-const path = require("path");
-
-
-
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-
 const axios = require('axios');
 
-const { Buffer } = require('buffer');
+const fs = require('fs-extra');
+
+const path = require('path');
+
+const ytdl = require("ytdl-core");
+
+const yts = require("yt-search");
 
 
 
-const API_KEY = "AIzaSyB4XGZJ359gmhdaSmk8dL93uXEzd9spJw8";
+async function lado(api, event, args, message) {
+
+  try {
+
+    const songName = args.join(" ");
+
+    const searchResults = await yts(songName);
 
 
 
-const genAI = new GoogleGenerativeAI(API_KEY);
+    if (!searchResults.videos.length) {
 
-const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro-latest" });
-
-
-
-const persistentChats = new Map();
-
-
-
-const safetySettings = [
-
-  { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-
-  { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-
-  { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-
-  { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
-
-];
-
-
-
-module.exports = {
-
-  config: {
-
-    name: "gemini",
-
-    aliases: "g",
-
-    version: "1.1.10",
-
-    author: "Shikaki/hassan",
-
-    countDown: 5,
-
-    role: 0,
-
-    description: { en: "Artificial Intelligence Google Gemini 1.0 pro" },
-
-    guide: { en: "{pn} <query>" },
-
-    category: "ai",
-
-  },
-
-  onStart: async function ({ api, message, event, args, commandName }) {
-
-    const userID = event.senderID;
-
-    let prompt = args.join(" ");
-
-
-
-    if (prompt.toLowerCase() === "clear") {
-
-      clearChatHistory();
-
-      message.reply("Chat history cleared successfully.");
+      message.reply("No song found for the given query.");
 
       return;
 
@@ -86,504 +30,398 @@ module.exports = {
 
 
 
-    let content = (event.type == "message_reply") ? event.messageReply.body : args.join(" ");
+    const video = searchResults.videos[0];
 
-    targetMessageID = (event.type == "message_reply") ? event.messageReply.messageID : event.messageID;
+    const videoUrl = video.url;
 
+    const stream = ytdl(videoUrl, { filter: "audioonly" });
 
+    const fileName = `music.mp3`; 
 
-    if (content != "" && event.type == "message_reply") {
+    const filePath = path.join(__dirname, "tmp", fileName);
 
-      api.setMessageReaction("⌛", event.messageID, () => { }, true);
 
-      var startTime = new Date().getTime();
 
-      var chatHistory = readChatHistory(userID);
+    stream.pipe(fs.createWriteStream(filePath));
 
 
 
-      if (!persistentChats.has(userID)) {
+    stream.on('response', () => {
 
-        persistentChats.set(userID, model.startChat({
+      console.info('[DOWNLOADER]', 'Starting download now!');
 
-          model: "gemini-1.0-pro-latest",
+    });
 
-          history: chatHistory,
 
-          safetySettings: [
 
-            { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+    stream.on('info', (info) => {
 
-            { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+      console.info('[DOWNLOADER]', `Downloading ${info.videoDetails.title} by ${info.videoDetails.author.name}`);
 
-            { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+    });
 
-            { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
 
-          ],
 
-          generationConfig: {
+    stream.on('end', () => {
 
-            maxOutputTokens: 2048,
+      const audioStream = fs.createReadStream(filePath);
 
-          },
+      message.reply({ attachment: audioStream });
 
-        }));
+      api.setMessageReaction("✅", event.messageID, () => {}, true);
 
-      }
+    });
 
-      const persistentChat = persistentChats.get(userID);
+  } catch (error) {
 
+    console.error("Error:", error);
 
+    message.reply("Sorry, an error occurred while processing your request.");
 
-      try {
+  }
 
-        let msg = content + prompt;
+}
 
 
 
-        const result = await persistentChat.sendMessage(msg, safetySettings);
+async function kshitiz(api, event, args, message) {
 
-        
+  try {
 
-        const response = await result.response;
+    const query = args.join(" ");
 
+    const searchResults = await yts(query);
 
 
-        let text = response.text();
 
+    if (!searchResults.videos.length) {
 
+      message.reply("No videos found for the given query.");
 
-        text = text.replace(/\*/g, '');
+      return;
 
+    }
 
 
-        appendToChatHistory({ role: "user", parts: [{ text: msg }] });
 
-        appendToChatHistory({ role: "model", parts: [{ text: text }] });
+    const video = searchResults.videos[0];
 
+    const videoUrl = video.url;
 
+    const stream = ytdl(videoUrl, { filter: "audioandvideo" }); 
 
-        message.reply(text, (err, info) => {
+    const fileName = `music.mp4`;
 
-          if (!err) {
+    const filePath = path.join(__dirname, "tmp", fileName);
 
-            global.GoatBot.onReply.set(info.messageID, {
 
-              commandName,
 
-              messageID: info.messageID,
+    stream.pipe(fs.createWriteStream(filePath));
 
-              author: event.senderID,
 
-            });
 
-          }
+    stream.on('response', () => {
 
-        });
+      console.info('[DOWNLOADER]', 'Starting download now!');
 
-        api.setMessageReaction("✅", event.messageID, () => { }, true);
+    });
 
-      } catch (error) {
 
-        message.reply(`${error.message}`);
 
-        api.setMessageReaction("❌", event.messageID, () => { }, true);
+    stream.on('info', (info) => {
 
-      }
+      console.info('[DOWNLOADER]', `Downloading ${info.videoDetails.title} by ${info.videoDetails.author.name}`);
 
-    } else if (event.type === "message_reply") {
+    });
 
-      prompt = args.join(" ");
 
 
+    stream.on('end', () => {
 
-      const genAI = new GoogleGenerativeAI(API_KEY);
+      const videoStream = fs.createReadStream(filePath);
 
-      const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro-vision-latest" });
+      message.reply({ attachment: videoStream });
 
+      api.setMessageReaction("✅", event.messageID, () => {}, true);
 
+    });
 
-      api.setMessageReaction("⌛", event.messageID, () => { }, true);
+  } catch (error) {
 
+    console.error(error);
 
+    message.reply("Sorry, an error occurred while processing your request.");
 
-      try {
+  }
 
-        let imageParts = [];
+}
 
-        for (let i = 0; i < Math.min(event.messageReply.attachments.length, 5); i++) {
 
-          const imageUrl = event.messageReply.attachments[i]?.url;
 
-          if (imageUrl) {
+async function b(c, d, e, f) {
 
-            const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+  try {
 
-            const imageBuffer = Buffer.from(response.data, 'binary');
+    const g = await axios.get(`https://for-devs.onrender.com/api/bard?query=${encodeURIComponent(c)}&UID=${d}&apikey=api1`);
 
-            imageParts.push({
+    return g.data.response.message;
 
-              inlineData: {
+  } catch (h) {
 
-                data: imageBuffer.toString("base64"),
+    throw h;
 
-                mimeType: response.headers['content-type']
+  }
 
-              },
+}
 
-            });
 
-          }
 
-        }
+async function i(c) {
 
+  try {
 
+    const j = await axios.get(`https://sdxl-kshitiz.onrender.com/gen?prompt=${encodeURIComponent(c)}&style=3`);
 
-        if (imageParts.length > 0) {
+    return j.data.url;
 
-          let result = await model.generateContent([prompt, ...imageParts], safetySettings);
+  } catch (k) {
 
-          const generationResponse = await result.response;
+    throw k;
 
+  }
 
+}
 
-          let text = generationResponse.text();
 
 
+async function describeImage(prompt, photoUrl) {
 
-          appendToChatHistory({ role: "user", parts: [{ text: prompt }] });
+  try {
 
-          appendToChatHistory({ role: "model", parts: [{ text: text }] });
+    const url = `https://for-devs.onrender.com/api/bard?query=${encodeURIComponent(prompt)}&UID=4&apikey=api1&attachment=${encodeURIComponent(photoUrl)}`;
 
+    const response = await axios.get(url);
 
+    return response.data.response.message;
 
-          await message.reply(text);
+  } catch (error) {
 
-          api.setMessageReaction("✅", event.messageID, () => { }, true);
+    throw error;
 
-        } else {
+  }
 
-          throw new Error("No image attachments found to process.");
+}
 
-        }
 
-      } catch (error) {
 
-        message.reply(`${error.message}`);
+async function l({ api, message, event, args }) {
 
-        api.setMessageReaction("❌", event.messageID, () => { }, true);
+  try {
 
-      }
+    const m = event.senderID;
+
+    let n = "";
+
+    let draw = false;
+
+    let sendTikTok = false;
+
+    let sing = false;
+
+
+
+    if (args[0].toLowerCase() === "draw") {
+
+      draw = true;
+
+      n = args.slice(1).join(" ").trim();
+
+    } else if (args[0].toLowerCase() === "send") {
+
+      sendTikTok = true;
+
+      n = args.slice(1).join(" ").trim();
+
+    } else if (args[0].toLowerCase() === "sing") {
+
+      sing = true;
+
+      n = args.slice(1).join(" ").trim();
+
+    } else if (event.messageReply && event.messageReply.attachments && event.messageReply.attachments.length > 0) {
+
+      const photoUrl = event.messageReply.attachments[0].url;
+
+      n = args.join(" ").trim();
+
+      const description = await describeImage(n, photoUrl);
+
+      message.reply(`Description: ${description}`);
+
+      return;
 
     } else {
 
-      api.setMessageReaction("⌛", event.messageID, () => { }, true);
+      n = args.join(" ").trim();
 
-      var chatHistory = readChatHistory(userID);
-
-
-
-      if (!persistentChats.has(userID)) {
-
-        persistentChats.set(userID, model.startChat({
-
-          history: chatHistory,
-
-          safetySettings: [
-
-            { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-
-            { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-
-            { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-
-            { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
-
-          ],
-
-          generationConfig: {
-
-            maxOutputTokens: 2048,
-
-          },
-
-        }));
-
-      }
+    }
 
 
 
-      const persistentChat = persistentChats.get(userID);
+    if (!n) {
+
+      return message.reply("Please provide a prompt.");
+
+    }
 
 
 
-      try {
+    if (draw) {
 
-        let msg = prompt;
+      await drawImage(message, n);
 
+    } else if (sendTikTok) {
 
+      await kshitiz(api, event, args.slice(1), message); 
 
-        const result = await persistentChat.sendMessage(msg, safetySettings);
+    } else if (sing) {
 
-        const response = await result.response;
+      await lado(api, event, args.slice(1), message); 
 
+    } else {
 
+      const q = await b(n, m);
 
-        let text = response.text();
+      message.reply(q, (r, s) => {
 
-        
+        global.GoatBot.onReply.set(s.messageID, {
 
-        text = text.replace(/\*/g, '');
+          commandName: a.name,
 
-
-
-        appendToChatHistory({ role: "user", parts: [{ text: msg }] });
-
-        appendToChatHistory({ role: "model", parts: [{ text: text }] });
-
-
-
-        message.reply(text, (err, info) => {
-
-          if (!err) {
-
-            global.GoatBot.onReply.set(info.messageID, {
-
-              commandName,
-
-              messageID: info.messageID,
-
-              author: event.senderID,
-
-            });
-
-          }
+          uid: m 
 
         });
 
-        api.setMessageReaction("✅", event.messageID, () => { }, true);
-
-      } catch (error) {
-
-        message.reply(`${error.message}`);
-
-        api.setMessageReaction("❌", event.messageID, () => { }, true);
-
-      }
+      });
 
     }
+
+  } catch (t) {
+
+    console.error("Error:", t.message);
+
+    message.reply("An error occurred while processing the request.");
+
+  }
+
+}
+
+
+
+async function drawImage(message, prompt) {
+
+  try {
+
+    const u = await i(prompt);
+
+
+
+    const v = path.join(__dirname, 'cache', `image_${Date.now()}.png`);
+
+    const writer = fs.createWriteStream(v);
+
+
+
+    const response = await axios({
+
+      url: u,
+
+      method: 'GET',
+
+      responseType: 'stream'
+
+    });
+
+
+
+    response.data.pipe(writer);
+
+
+
+    return new Promise((resolve, reject) => {
+
+      writer.on('finish', resolve);
+
+      writer.on('error', reject);
+
+    }).then(() => {
+
+      message.reply({
+
+        body: "Generated image:",
+
+        attachment: fs.createReadStream(v)
+
+      });
+
+    });
+
+  } catch (w) {
+
+    console.error("Error:", w.message);
+
+    message.reply("An error occurred while processing the request.");
+
+  }
+
+}
+
+
+
+const a = {
+
+  name: "gemini",
+
+  aliases: ["bard"],
+
+  version: "4.0",
+
+  author: "vex_kshitiz",
+
+  countDown: 5,
+
+  role: 0,
+
+  longDescription: "Chat with gemini",
+
+  category: "ai",
+
+  guide: {
+
+    en: "{p}gemini {prompt}"
+
+  }
+
+};
+
+
+
+module.exports = {
+
+  config: a,
+
+  handleCommand: l,
+
+  onStart: function ({ api, message, event, args }) {
+
+    return l({ api, message, event, args });
 
   },
 
-  onReply: async function ({ api, message, event, Reply, args }) {
+  onReply: function ({ api, message, event, args }) {
 
-    const userID = event.senderID;
-
-    const prompt = args.join(" ");
-
-    let { author, commandName } = Reply;
-
-
-
-    if (event.senderID !== author) return;
-
-
-
-    api.setMessageReaction("⌛", event.messageID, () => { }, true);
-
-
-
-    var chatHistory = readChatHistory(userID);
-
-
-
-    if (chatHistory.length === 0) {
-
-      chatHistory.push({
-
-        role: "user",
-
-        parts: [{ text: "Start of conversation" }],
-
-      });
-
-    }
-
-
-
-    if (!persistentChats.has(userID)) {
-
-      persistentChats.set(userID, model.startChat({
-
-        history: chatHistory,
-
-        safetySettings: [
-
-          { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-
-          { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-
-          { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-
-          { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
-
-        ],
-
-        generationConfig: {
-
-          maxOutputTokens: 2048,
-
-        },
-
-      }));
-
-    }
-
-    const persistentChat = persistentChats.get(userID);
-
-
-
-    try {
-
-      msg = prompt.trim() === "" ? "" : prompt;
-
-      const result = await persistentChat.sendMessage(msg, safetySettings);
-
-      const response = await result.response;
-
-
-
-      text = response.text();
-
-      
-
-      text = text.replace(/\*/g, '');
-
-
-
-      appendToChatHistory(userID, { role: "user", parts: [{ text: msg }] });
-
-      appendToChatHistory(userID, { role: "model", parts: [{ text: text }] });
-
-
-
-      message.reply(text, (err, info) => {
-
-        if (!err) {
-
-          global.GoatBot.onReply.set(info.messageID, {
-
-            commandName,
-
-            messageID: info.messageID,
-
-            author: event.senderID,
-
-          });
-
-        }
-
-      });
-
-      api.setMessageReaction("✅", event.messageID, () => { }, true);
-
-    } catch (error) {
-
-      message.reply(`${error.message}`);
-
-      api.setMessageReaction("❌", event.messageID, () => { }, true);
-
-    }
+    return l({ api, message, event, args });
 
   }
 
-}
-
-
-
-function ensureChatHistoryFile(userID) {
-
-  const directoryPath = path.join(__dirname, 'chatHistory');
-
-  if (!fs.existsSync(directoryPath)) {
-
-    fs.mkdirSync(directoryPath);
-
-  }
-
-  const filePath = path.join(directoryPath, `${userID}gemini.json`);
-
-  if (!fs.existsSync(filePath)) {
-
-    fs.writeFileSync(filePath, JSON.stringify([], null, 2));
-
-  }
-
-  return filePath;
-
-}
-
-
-
-function readChatHistory(userID) {
-
-  const filePath = ensureChatHistoryFile(userID);
-
-  try {
-
-    const data = fs.readFileSync(filePath, 'utf8');
-
-    return JSON.parse(data);
-
-  } catch (err) {
-
-    console.error(`Error reading chat history for user ${userID}:`, err);
-
-    return [];
-
-  }
-
-}
-
-
-
-function appendToChatHistory(userID, messageObject) {
-
-  const filePath = ensureChatHistoryFile(userID);
-
-  try {
-
-    const chatHistory = readChatHistory(userID);
-
-    chatHistory.push(messageObject);
-
-    fs.writeFileSync(filePath, JSON.stringify(chatHistory, null, 2));
-
-  } catch (err) {
-
-    console.error(`Error appending message to chat history for user ${userID}:`, err);
-
-  }
-
-}
-
-
-
-function clearChatHistory(userID) {
-
-  const filePath = path.join(__dirname, 'chatHistory', `${userID}gemini.json`);
-
-  try {
-
-    fs.unlinkSync(filePath);
-
-    console.log(`Chat history cleared for user ${userID}`);
-
-  } catch (err) {
-
-    console.error(`Error clearing chat history for user ${userID}:`, err);
-
-  }
-
-             }
+};
