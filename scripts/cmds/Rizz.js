@@ -13,7 +13,7 @@ module.exports = {
     role: 0,
     shortDescription: "rizz the girls",
     longDescription: "rizz the girls in diff way",
-    category: "fun",
+    category: "🖼️| IMAGE",
     guide: {
       en: "{prizz @mention",
     }
