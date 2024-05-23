@@ -14,7 +14,7 @@ module.exports = {
 
     role: 0,
 
-    category: 'AI',
+    category: '🤖| AI',
 
     shortDescription: {
 
