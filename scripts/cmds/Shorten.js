@@ -35,7 +35,7 @@ module.exports = {
         role: 0,
         shortDescription: "Shorten a URL from an attachment",
         longDescription: "Shorten a URL from an attachment using the specified shortening API",
-        category: "utility",
+        category: "🔧| UTILITY",
         guide: "{p}shorten"
     },
     onStart: function ({ api, event }) {
