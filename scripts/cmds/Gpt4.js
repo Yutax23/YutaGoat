@@ -7,7 +7,7 @@ module.exports = {
     author: 'Null69',
     countDown: 0,
     role: 0,
-    category: 'AI',
+    category: '🤖| AI',
     shortDescription: {
       en: 'Just an AI',
     },
