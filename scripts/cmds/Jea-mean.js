@@ -31,7 +31,7 @@ module.exports = {
       vi: "chat with Jea",
       en: "chat with Jea"
     },
-    category: "🤖: AI",
+    category: "🤖| AI",
     guide: {
       en: "{pn} 'prompt'\nexample:\n{pn} hi there \nyou can reply to chat\nyou can delete conversations by replying clear"
     }
