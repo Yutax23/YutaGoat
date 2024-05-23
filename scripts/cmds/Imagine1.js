@@ -12,7 +12,7 @@ module.exports = {
     role: 0,
     shortDescription: "cetus mix",
     longDescription: "cetus mix",
-    category: "image",
+    category: "🖼️| IMAGE",
     guide: {
       en: "{p}meina [prompt]"
     }
