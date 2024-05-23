@@ -47,7 +47,7 @@ module.exports = {
     role: 0,
     shortDescription: "Watch anime",
     longDescription: "Get anime episode download links",
-    category: "Anime",
+    category: "📽️| VIDEO",
     guide: "{p}aniplay <anime_name>",
   },
 
