@@ -15,7 +15,7 @@ module.exports = {
     longDescription: {
       en: "Find out how long the bot has been tirelessly serving you."
     },
-    category: "owner",
+    category: "👤| OWNER",
     guide: {
       en: "Use {p}uptime to reveal the bot's operational duration."
     }
