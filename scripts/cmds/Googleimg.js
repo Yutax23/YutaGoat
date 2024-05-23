@@ -8,7 +8,7 @@ module.exports = {
     version: "2.0",
     shortDescription: "Search for images using Google Images",
     longDescription: "Search for images using Google Images and return a specified number of results.",
-    category: "utility",
+    category: "🖼️| IMAGE",
     guide: {
       vi: "",
       en: ""
