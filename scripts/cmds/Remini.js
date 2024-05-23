@@ -9,7 +9,7 @@ module.exports = {
     countDown: 15,
     role: 0,
     longDescription: "enhance your image.",
-    category: "utility",
+    category: "🖼️| IMAGE",
     guide: {
       en: "{pn} reply to an image"
     }
