@@ -5,7 +5,7 @@ module.exports = {
         version: "1.0.0",
         author: "Goatbot Generator",
         role: 0,
-        category: "Economy",
+        category: "💰| ECONOMY",
         shortDescription: {
             en: "Transfer money to another user",
             vi: "Chuyển tiền cho người dùng khác"
