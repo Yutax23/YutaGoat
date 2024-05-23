@@ -12,7 +12,7 @@ module.exports = {
     role: 0,
     shortDescription: "calicomix",
     longDescription: "calicomix",
-    category: "image",
+    category: "🖼️| IMAGE",
     guide: {
       en: "{p}meina [prompt]"
     }
