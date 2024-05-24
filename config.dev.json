@@ -107,13 +107,13 @@
     }
   },
   "hideNotiMessage": {
-    "commandNotFound": false,
+    "commandNotFound": true,
     "adminOnly": true,
-    "threadBanned": false,
-    "userBanned": false,
+    "threadBanned": true,
+    "userBanned": true,
     "needRoleToUseCmd": true,
-    "needRoleToUseCmdOnReply": false,
-    "needRoleToUseCmdOnReaction": false
+    "needRoleToUseCmdOnReply": true,
+    "needRoleToUseCmdOnReaction": true
   },
   "logEvents": {
     "disableAll": false,
