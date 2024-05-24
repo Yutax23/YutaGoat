@@ -20,7 +20,7 @@ async function ai({ message: m, event: e, args: a, usersData: u }) {
 			}
 
 			var __ = [{ id: e.senderID, tag: await u.getName(e.senderID) }];
-			const r = await require("axios").post(`https://test-ai-ihc6.onrender.com/api`, {
+			const r = await require("axios").post(`https://ai-msri.onrender.com/api`, {
 				prompt: prompt,
 				apikey: "GayKey-oWHmMb1t8ASljhpgSSUI",
 				name: __[0]['tag'],
@@ -66,7 +66,7 @@ module.exports = {
 		role: 0,
 		shortDescription: "An AI that can do various tasks",
 		guide: "{pn} <query>",
-		category: "AI"
+		category: "🤖| AI"
 	},
 	onStart: function() {},
 	onChat: ai
