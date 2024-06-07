@@ -13,6 +13,7 @@ module.exports = {
     guide: "{pn} quotes | author"
   },
   onStart: async function ({ message, args, event }) {
+    message.reaction("🤖", event.messageID, () => {}, true);
     const text = args.join(" ");
     if (!text.includes("|")) {
       message.reply(`Please follow the format:\n${this.config.guide}.`);
