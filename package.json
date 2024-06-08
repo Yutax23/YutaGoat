@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"engines": {
 		"node": "19.9.0",
-		"npm": "10.7.0"
+		"npm": "9.6.3"
 	},
 	"dependencies": {
 		"@distube/ytdl-core": "^4.13.3",
