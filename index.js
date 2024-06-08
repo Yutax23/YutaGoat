@@ -21,6 +21,7 @@ const { spawn } = require("child_process");
 const log = require("./logger/log.js");
 
 function startProject() {
+ const port = process.env.PORT || 3000;
 	const child = spawn("node", ["Goat.js"], {
 		cwd: __dirname,
 		stdio: "inherit",
