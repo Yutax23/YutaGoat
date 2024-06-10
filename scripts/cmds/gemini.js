@@ -35,7 +35,7 @@ module.exports = {
     author: "Samir OE",
     countDown: 5,
     role: 0,
-    category: "𝗔𝗜"
+    category: "ai"
   },
   onStart: async function({
     message: m,
