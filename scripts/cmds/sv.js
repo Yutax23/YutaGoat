@@ -1,33 +1,30 @@
-async function sv({ args, message, event }) {
-    const a = require("yt-search");
-    const yeah = args.join(" ");
-    const text = yeah.split("|");
-    if (!yeah.includes("|")) {
-      message.reaction("❌", event.messageID, () => {}, true);
-      await message.reply(this.config.guide);
-      return;
-    }
-    const title = text[1].trim();
-    const media = text[0].trim();
-    if (media === "-s") {
-      message.reaction("⏱️", event.messageID, () => {}, true);
-      const song = await a(title);
-      const sing = song.videos[0];
-      const songUrl = sing.url;
-      const downloadSong = await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${songUrl}&type=mp3`);
-      downloadSong.path = "./cache/null69.mp3"
-      message.reply({ attachment: downloadSong });
-      message.reaction("✅", event.messageID, () => {}, true);
-    } else if (media === "-v") {
-      message.reaction("⏱️", event.messageID, () => {}, true);
-      const video = await a(title);
-      const vid = video.videos[0];
-      const videoUrl = vid.url;
-      const downloadVideo = await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${videoUrl}&type=mp4`);
-      downloadVideo.path = "./cache/null69.mp4"
-      message.reply({ attachment: downloadVideo });
-      message.reaction("✅", event.messageID, () => {}, true);
-    } else return message.reply("Please choose between mp3 or mp4");
+async function sv({ message: m, args: a, event: e, }) {
+  const k = a.join(" ");
+  if (!k) {
+    m.reaction("❌", e.messageID, () => {}, true);
+    m.reply(this.config.guide);
+    return;
+  }
+  m.reaction("⏱️", e.messageID, () => {}, true);
+  const b = require("yt-search");
+  const c = k.split(" ");
+  const d = c[0];
+  const f = k.substr(c.length + 1);
+  const g = await b(f);
+  const h = g.videos[0];
+  const i = h.url;
+  let j;
+  try {
+    if (d === "-s") {
+      m.reply({ attachment: await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${i}&type=mp3`)});
+    } else if (d === "-v") {
+      m.reply({ attachment: await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${i}&type=mp4`)});
+    } else if (!d.includes("-")) { return m.reply(this.config.guide); }
+    m.reaction("✅", e.messageID, () => {}, true);
+  } catch (error) {
+    m.reaction("❌", e.messageID, () => {}, true);
+    m.reply(`❌ | ${error}`);
+  }
 };
 
 module.exports = {
@@ -39,7 +36,7 @@ module.exports = {
     countDown: 5,
     description: "play song or video",
     category: "media",
-    guide: "Please follow this format: {pn} [title] - [mp3 | mp4]"
+    guide: "⚠️ | Please follow this format: {pn} [-s or -v ] title"
   },
   onStart: sv
 };
