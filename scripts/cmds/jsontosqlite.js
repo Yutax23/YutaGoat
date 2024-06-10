@@ -3,7 +3,7 @@ const { sequelize } = global.db;
 
 module.exports = {
 	config: {
-		name: "jsontosqlite",
+		name: "jts",
 		version: "1.4",
 		author: "NTKhang",
 		countDown: 5,
