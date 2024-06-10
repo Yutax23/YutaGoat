@@ -2,7 +2,7 @@ const fs = require("fs-extra");
 
 module.exports = {
 	config: {
-		name: "jsontomongodb",
+		name: "jtm",
 		aliases: ["jsontomongo"],
 		version: "1.5",
 		author: "NTKhang",
