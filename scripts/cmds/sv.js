@@ -6,6 +6,7 @@ async function sv({ message: m, args: a, event: e, }) {
     return;
   }
   m.reaction("⏱", e.messageID, () => {}, true);
+  const axios = require("axios");
   const b = require("yt-search");
   const c = k.split(" ");
   const d = c[0];
@@ -18,7 +19,8 @@ async function sv({ message: m, args: a, event: e, }) {
     if (d === "-s") {
       m.reply({ attachment: await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${i}&type=mp3`, 'cache')});
     } else if (d === "-v") {
-      m.reply({ attachment: await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${i}&type=mp4`, 'cache')});
+      const { data: result } = await axios.get(`https://for-devs.onrender.com/api/ytdl?url=${i}&apikey=api1`, { responseType: "stream" } );
+m.reply({ attachment: result });
     } else if (!d.includes("-")) { return m.reply(this.config.guide); }
     m.reaction("✅", e.messageID, () => {}, true);
   } catch (error) {
