@@ -8,7 +8,7 @@ module.exports = {
     author: "Samir OE",
     countDown: 5,
     role: 0,
-    category: "google",
+    category: "ai",
   },
   onStart: async function ({ message, event, args, commandName }) {
     try {
