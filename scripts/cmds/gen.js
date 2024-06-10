@@ -12,7 +12,7 @@ async function gen({ message, args, event }) {
       const loading = await message.reply({ sticker: "387545758037975" });
       message.reaction("😆", loading.messageID, () => {}, true);
     const imageGen = await axios.get(`https://for-devs.onrender.com/api/playgroundai?prompt=${encodeURIComponent(prompt)}&nevPrompt=${encodeURIComponent(negativePrompt)}&resolution=${resolution}&apikey=api1`);
-    const result = await global.utils.getStreamFromURL(imageGen.data.imageUrl);
+    const result = await global.utils.getStreamFromURL(imageGen.data.imageUrl, 'cache');
     message.reply({ attachment: result });
     message.reaction("✅", event.messageID, () => {}, true);
     message.unsend(loading.messageID);
