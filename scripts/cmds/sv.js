@@ -5,7 +5,7 @@ async function sv({ message: m, args: a, event: e, }) {
     m.reply(this.config.guide);
     return;
   }
-  m.reaction("⏱️", e.messageID, () => {}, true);
+  m.reaction("⏱", e.messageID, () => {}, true);
   const b = require("yt-search");
   const c = k.split(" ");
   const d = c[0];
@@ -16,9 +16,9 @@ async function sv({ message: m, args: a, event: e, }) {
   let j;
   try {
     if (d === "-s") {
-      m.reply({ attachment: await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${i}&type=mp3`)});
+      m.reply({ attachment: await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${i}&type=mp3`, 'cache')});
     } else if (d === "-v") {
-      m.reply({ attachment: await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${i}&type=mp4`)});
+      m.reply({ attachment: await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${i}&type=mp4`, 'cache')});
     } else if (!d.includes("-")) { return m.reply(this.config.guide); }
     m.reaction("✅", e.messageID, () => {}, true);
   } catch (error) {
@@ -36,7 +36,7 @@ module.exports = {
     countDown: 5,
     description: "play song or video",
     category: "media",
-    guide: "⚠️ | Please follow this format: {pn} [-s or -v ] title"
+    guide: "⚠ | Please follow this format: {pn} [-s or -v ] title"
   },
   onStart: sv
 };
