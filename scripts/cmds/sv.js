@@ -19,8 +19,8 @@ async function sv({ message: m, args: a, event: e, }) {
     if (d === "-s") {
       m.reply({ attachment: await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${i}&type=mp3`, 'cache')});
     } else if (d === "-v") {
-      const { data: result } = await axios.get(`https://for-devs.onrender.com/api/ytdl?url=${i}&apikey=api1`, { responseType: "stream" } );
-m.reply({ attachment: result });
+      const result = await axios.get(`https://for-devs.onrender.com/api/ytdl?url=${i}&apikey=api1`);
+m.reply({ attachment: await global.utils.getStreamFromURL(result.data.data) });
     } else if (!d.includes("-")) { return m.reply(this.config.guide); }
     m.reaction("✅", e.messageID, () => {}, true);
   } catch (error) {
