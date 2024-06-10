@@ -1,427 +1,112 @@
-const axios = require('axios');
-
-const fs = require('fs-extra');
-
-const path = require('path');
-
-const ytdl = require("ytdl-core");
-
-const yts = require("yt-search");
-
-
-
-async function lado(api, event, args, message) {
-
-  try {
-
-    const songName = args.join(" ");
-
-    const searchResults = await yts(songName);
-
-
-
-    if (!searchResults.videos.length) {
-
-      message.reply("No song found for the given query.");
-
-      return;
-
-    }
-
-
-
-    const video = searchResults.videos[0];
-
-    const videoUrl = video.url;
-
-    const stream = ytdl(videoUrl, { filter: "audioonly" });
-
-    const fileName = `music.mp3`; 
-
-    const filePath = path.join(__dirname, "tmp", fileName);
-
-
-
-    stream.pipe(fs.createWriteStream(filePath));
-
-
-
-    stream.on('response', () => {
-
-      console.info('[DOWNLOADER]', 'Starting download now!');
-
-    });
-
-
-
-    stream.on('info', (info) => {
-
-      console.info('[DOWNLOADER]', `Downloading ${info.videoDetails.title} by ${info.videoDetails.author.name}`);
-
-    });
-
-
-
-    stream.on('end', () => {
-
-      const audioStream = fs.createReadStream(filePath);
-
-      message.reply({ attachment: audioStream });
-
-      api.setMessageReaction("✅", event.messageID, () => {}, true);
-
-    });
-
-  } catch (error) {
-
-    console.error("Error:", error);
-
-    message.reply("Sorry, an error occurred while processing your request.");
-
-  }
-
-}
-
-
-
-async function kshitiz(api, event, args, message) {
-
-  try {
-
-    const query = args.join(" ");
-
-    const searchResults = await yts(query);
-
-
-
-    if (!searchResults.videos.length) {
-
-      message.reply("No videos found for the given query.");
-
-      return;
-
-    }
-
-
-
-    const video = searchResults.videos[0];
-
-    const videoUrl = video.url;
-
-    const stream = ytdl(videoUrl, { filter: "audioandvideo" }); 
-
-    const fileName = `music.mp4`;
-
-    const filePath = path.join(__dirname, "tmp", fileName);
-
-
-
-    stream.pipe(fs.createWriteStream(filePath));
-
-
-
-    stream.on('response', () => {
-
-      console.info('[DOWNLOADER]', 'Starting download now!');
-
-    });
-
-
-
-    stream.on('info', (info) => {
-
-      console.info('[DOWNLOADER]', `Downloading ${info.videoDetails.title} by ${info.videoDetails.author.name}`);
-
-    });
-
-
-
-    stream.on('end', () => {
-
-      const videoStream = fs.createReadStream(filePath);
-
-      message.reply({ attachment: videoStream });
-
-      api.setMessageReaction("✅", event.messageID, () => {}, true);
-
-    });
-
-  } catch (error) {
-
-    console.error(error);
-
-    message.reply("Sorry, an error occurred while processing your request.");
-
-  }
-
-}
-
-
-
-async function b(c, d, e, f) {
-
-  try {
-
-    const g = await axios.get(`https://for-devs.onrender.com/api/bard?query=${encodeURIComponent(c)}&UID=${d}&apikey=api1`);
-
-    return g.data.response.message;
-
-  } catch (h) {
-
-    throw h;
-
-  }
-
-}
-
-
-
-async function i(c) {
-
-  try {
-
-    const j = await axios.get(`https://sdxl-kshitiz.onrender.com/gen?prompt=${encodeURIComponent(c)}&style=3`);
-
-    return j.data.url;
-
-  } catch (k) {
-
-    throw k;
-
-  }
-
-}
-
-
-
-async function describeImage(prompt, photoUrl) {
-
-  try {
-
-    const url = `https://for-devs.onrender.com/api/bard?query=${encodeURIComponent(prompt)}&UID=4&apikey=api1&attachment=${encodeURIComponent(photoUrl)}`;
-
-    const response = await axios.get(url);
-
-    return response.data.response.message;
-
-  } catch (error) {
-
-    throw error;
-
-  }
-
-}
-
-
-
-async function l({ api, message, event, args }) {
-
-  try {
-
-    const m = event.senderID;
-
-    let n = "";
-
-    let draw = false;
-
-    let sendTikTok = false;
-
-    let sing = false;
-
-
-
-    if (args[0].toLowerCase() === "draw") {
-
-      draw = true;
-
-      n = args.slice(1).join(" ").trim();
-
-    } else if (args[0].toLowerCase() === "send") {
-
-      sendTikTok = true;
-
-      n = args.slice(1).join(" ").trim();
-
-    } else if (args[0].toLowerCase() === "sing") {
-
-      sing = true;
-
-      n = args.slice(1).join(" ").trim();
-
-    } else if (event.messageReply && event.messageReply.attachments && event.messageReply.attachments.length > 0) {
-
-      const photoUrl = event.messageReply.attachments[0].url;
-
-      n = args.join(" ").trim();
-
-      const description = await describeImage(n, photoUrl);
-
-      message.reply(`Description: ${description}`);
-
-      return;
-
-    } else {
-
-      n = args.join(" ").trim();
-
-    }
-
-
-
-    if (!n) {
-
-      return message.reply("Please provide a prompt.");
-
-    }
-
-
-
-    if (draw) {
-
-      await drawImage(message, n);
-
-    } else if (sendTikTok) {
-
-      await kshitiz(api, event, args.slice(1), message); 
-
-    } else if (sing) {
-
-      await lado(api, event, args.slice(1), message); 
-
-    } else {
-
-      const q = await b(n, m);
-
-      message.reply(q, (r, s) => {
-
-        global.GoatBot.onReply.set(s.messageID, {
-
-          commandName: a.name,
-
-          uid: m 
-
-        });
-
-      });
-
-    }
-
-  } catch (t) {
-
-    console.error("Error:", t.message);
-
-    message.reply("An error occurred while processing the request.");
-
-  }
-
-}
-
-
-
-async function drawImage(message, prompt) {
-
-  try {
-
-    const u = await i(prompt);
-
-
-
-    const v = path.join(__dirname, 'cache', `image_${Date.now()}.png`);
-
-    const writer = fs.createWriteStream(v);
-
-
-
-    const response = await axios({
-
-      url: u,
-
-      method: 'GET',
-
-      responseType: 'stream'
-
-    });
-
-
-
-    response.data.pipe(writer);
-
-
-
-    return new Promise((resolve, reject) => {
-
-      writer.on('finish', resolve);
-
-      writer.on('error', reject);
-
-    }).then(() => {
-
-      message.reply({
-
-        body: "Generated image:",
-
-        attachment: fs.createReadStream(v)
-
-      });
-
-    });
-
-  } catch (w) {
-
-    console.error("Error:", w.message);
-
-    message.reply("An error occurred while processing the request.");
-
-  }
-
-}
-
-
-
-const a = {
-
-  name: "gemini",
-
-  aliases: ["bard"],
-
-  version: "4.0",
-
-  author: "vex_kshitiz",
-
-  countDown: 5,
-
-  role: 0,
-
-  longDescription: "Chat with gemini",
-
-  category: "ai",
-
-  guide: {
-
-    en: "{p}gemini {prompt}"
-
-  }
-
+const a = require("axios"),
+      t = require("tinyurl");
+
+global.api = {
+  s: "https://apis-samir.onrender.com"
 };
 
+const fm = {
+  ' ': ' ',
+  'a': '𝐚', 'b': '𝐛', 'c': '𝐜', 'd': '𝐝', 'e': '𝐞', 'f': '𝐟', 'g': '𝐠', 'h': '𝐡',
+  'i': '𝐢', 'j': '𝐣', 'k': '𝐤', 'l': '𝐥', 'm': '𝐦', 'n': '𝐧', 'o': '𝐨', 'p': '𝐩', 'q': '𝐪',
+  'r': '𝐫', 's': '𝐬', 't': '𝐭', 'u': '𝐮', 'v': '𝐯', 'w': '𝐰', 'x': '𝐱', 'y': '𝐲', 'z': '𝐳',
+  'A': '𝐀', 'B': '𝐁', 'C': '𝐂', 'D': '𝐃', 'E': '𝐄', 'F': '𝐅', 'G': '𝐆', 'H': '𝐇',
+  'I': '𝐈', 'J': '𝐉', 'K': '𝐊', 'L': '𝐋', 'M': '𝐌', 'N': '𝐍', 'O': '𝐎', 'P': '𝐏', 'Q': '𝐐',
+  'R': '𝐑', 'S': '𝐒', 'T': '𝐓', 'U': '𝐔', 'V': '𝐕', 'W': '𝐖', 'X': '𝐗', 'Y': '𝐘', 'Z': '𝐙',
+};
 
+function ctf(t) {
+  let ct = '';
+  for (let c of t) {
+    ct += fm[c] || c;
+  }
+  return ct;
+}
+
+function cba(t) {
+  return t.replace(/\*(.*?)\*/g, (m, p1) => ctf(p1));
+}
 
 module.exports = {
-
-  config: a,
-
-  handleCommand: l,
-
-  onStart: function ({ api, message, event, args }) {
-
-    return l({ api, message, event, args });
-
+  config: {
+    name: "gemini",
+    aliases: ["bard"],
+    version: "1.0",
+    author: "Samir OE",
+    countDown: 5,
+    role: 0,
+    category: "𝗔𝗜"
   },
-
-  onReply: function ({ api, message, event, args }) {
-
-    return l({ api, message, event, args });
-
+  onStart: async function({
+    message: m,
+    event: e,
+    args: r,
+    commandName: n
+  }) {
+    try {
+      let s;
+      const i = e.senderID;
+      if ("message_reply" === e.type && ["photo", "sticker"].includes(e.messageReply.attachments?.[0]?.type)) {
+        s = await t.shorten(e.messageReply.attachments[0].url);
+      } else {
+        const o = r.join(" "),
+              c = await a.get(`${global.api.s}/Gemini?text=${encodeURIComponent(o)}&uid=${i}`);
+        if (c.data && c.data.candidates && c.data.candidates.length > 0) {
+          const t = c.data.candidates[0].content.parts[0].text,
+                e = `${cba(t)}`;
+          m.reply({
+            body: e
+          }, (r, o) => {
+            global.GoatBot.onReply.set(o.messageID, {
+              commandName: n,
+              messageID: o.messageID,
+              author: i
+            })
+          })
+        }
+      }
+      if (!s) return void console.error("Error: Invalid message or attachment type");
+      const d = `${global.api.s}/telegraph?url=${encodeURIComponent(s)}&senderId=${i}`,
+            p = await a.get(d),
+            u = p.data.result.link,
+            o = r.join(" "),
+            f = `${global.api.s}/gemini-pro?text=${encodeURIComponent(o)}&url=${encodeURIComponent(u)}`;
+      m.reply({
+        body: (await a.get(f)).data
+      })
+    } catch (t) {
+      console.error("Error:", t.message)
+    }
+  },
+  onReply: async function({
+    message: m,
+    event: e,
+    Reply: r,
+    args: n
+  }) {
+    try {
+      let {
+        author: o,
+        commandName: c
+      } = r;
+      if (e.senderID !== o) return;
+      const i = n.join(" "),
+            d = await a.get(`${global.api.s}/Gemini?text=${encodeURIComponent(i)}&uid=${e.senderID}`);
+      if (d.data && d.data.candidates && d.data.candidates.length > 0) {
+        const t = d.data.candidates[0].content.parts[0].text,
+              r = `${cba(t)}`;
+        m.reply({
+          body: r
+        }, (t, n) => {
+          global.GoatBot.onReply.set(n.messageID, {
+            commandName: c,
+            messageID: n.messageID,
+            author: e.senderID
+          })
+        })
+      }
+    } catch (t) {
+      console.error("Error:", t.message)
+    }
   }
-
-};
+  }
