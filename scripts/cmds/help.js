@@ -60,7 +60,7 @@ module.exports = {
     if (args.length === 0) {
 
       const categories = {};
-      const botname = "🤍 | SHEENA CHEN";
+      const botname = "🤍 | SheenaChen";
 
       let msg = "";
 
