@@ -14,26 +14,23 @@ async function sv({ message: m, args: a, event: e, }) {
   const g = await b(f);
   const h = g.videos[0];
   const i = h.url;
-  let j;
   try {
     switch (d) {
     case "-s":
     case "sing": {
-if (f) {
-      return j = "mp3";
-}
+      m.reply({ attachment: await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${i}&type=mp3`, 'cache')});
+    m.reaction("✅", e.messageID, () => {}, true);
+return;
+
     }
     case "-v":
     case "video": {
-      return j = "mp4";
+      m.reply({ attachment: await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${i}&type=mp4`, 'cache')});
+    m.reaction("✅", e.messageID, () => {}, true);
+return;
     }
     default: {
       if (!d) { return m.reply(this.config.guide); }
-    }
-    if (j) {
-    m.reply({ attachment: await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${i}&type=${j}`, 'cache')});
-    m.reaction("✅", e.messageID, () => {}, true);
-    } else return m.reply(this.config.guide);
     }
   } catch (error) {
     m.reaction("❌", e.messageID, () => {}, true);
