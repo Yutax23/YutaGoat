@@ -9,7 +9,7 @@ module.exports = {
 				author: "cliff",
 				shortDescription: "imgur upload",
 				countDown: 0,
-				category: "imgur",
+				category: "image",
 				guide: {
 						en: '[reply to image]'
 				}
