@@ -1,41 +1,71 @@
-async function sv({ message: m, args: a, event: e }) {
-  const k = a.join(" ");
+const a = require("axios");
+const b = require("fs-extra");
+const c = require("path");
+const d = require("ytdl-core");
+const e = require("yt-search");
+
+async function f({ message: g, event: h, args: i, api: j }) {
+  g.reaction("⏱️", h.messageID, () => {}, true);
+  const k = i.join(" ");
   if (!k) {
-    m.reaction("❌", e.messageID, () => {}, true);
-    m.reply(module.exports.config.guide);
-    return;
+  return g.reply(this.config.guide);
   }
-  m.reaction("⏱", e.messageID, () => {}, true);
-  const b = require("yt-search");
-  let [d, ...f] = k.split(" ");
-  f = f.join(" ");
-  if (!f) return m.reply(module.exports.config.guide);
-  const g = await b(f);
-  const h = g.videos[0];
-  const i = h.url;
-  try {
-    switch (d.toLowerCase()) {
-      case "-s":
-      case "sing": {
-        m.reply({ attachment: await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${i}&type=mp3`, 'cache') });
-        m.reaction("✅", e.messageID, () => {}, true);
-        return;
-      }
-      case "-v":
-      case "video": {
-        m.reply({ attachment: await global.utils.getStreamFromURL(`https://deku-rest-api-3ijr.onrender.com/ytdl?url=${i}&type=mp4`, 'cache') });
-        m.reaction("✅", e.messageID, () => {}, true);
-        return;
-      }
-      default: {
-        if (!d) return m.reply(module.exports.config.guide);
-      }
+  let [l, ...m] = k.split(" ");
+  m = m.join(" ");
+  const n = await e(m);
+  if (!n.videos.length) {
+    return g.reply(`${m} not found!`)
+  }
+  const o = n.videos[0];
+  const p = o.url;
+  let q;
+  let r;
+  let s;
+  let t;
+  if (l === "-v") {
+    t = await d(p, { filter: "audioandvideo" });
+    g.reaction("🎥", h.messageID, () => {}, true);
+    q = `${m}_${Date.now()}.mp4`;
+    r = c.join(__dirname, "cache", q);
+    s = b.createWriteStream(r);
+  t.pipe(s);
+  s.on("finish", async () => {
+    try {
+      const u = b.createReadStream(r);
+      await g.reply({ attachment: u });
+      g.reaction("✅", h.messageID, () => {}, true);
+    } catch (error) {
+      g.reaction("❌", h.messageID, () => {}, true);
+      g.reply(`${error}`);
+    } finally {
+      await b.unlink(r);
     }
-  } catch (error) {
-    m.reaction("❌", e.messageID, () => {}, true);
-    m.reply(`❌ | ${error}`);
+  });
+  return;
+  } else if (l === "-s") {
+    t = await d(p, { filter: "audioonly" });
+    g.reaction("🎶", h.messageID, () => {}, true);
+    q = `${m}_${Date.now()}.mp3`;
+    r = c.join(__dirname, "cache", q);
+    s = b.createWriteStream(r);
+  t.pipe(s);
+  s.on("finish", async () => {
+    try {
+      const u = b.createReadStream(r);
+      await g.reply({ attachment: u });
+      g.reaction("✅", h.messageID, () => {}, true);
+    } catch (error) {
+      g.reaction("❌", h.messageID, () => {}, true);
+      g.reply(`${error}`);
+    } finally {
+      g.reaction("✅", h.messageID, () => {}, true);
+      await b.unlink(r);
+    }
+  });
+
+  } else { return g.reply(`Please choose between -s and -v\nFormat: ${this.config.guide}`);
   }
-};
+  };
 
 module.exports = {
   config: {
@@ -46,10 +76,11 @@ module.exports = {
     countDown: 5,
     description: "play song or video",
     category: "media",
-    guide: "⚠ | Please follow this format: sv [-s/sing or -v/video ] title"
+    guide: "⚠ | Please follow this format: sv [ -s or -v ] title"
   },
-  onStart: sv
+  onStart: f
 };
+
 const { GoatWrapper } = require('fca-liane-utils');
 const wrapper = new GoatWrapper(module.exports);
 
