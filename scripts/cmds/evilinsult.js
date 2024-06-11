@@ -3,6 +3,7 @@ const Prefixes = [
   "💻",
   "🍀", 
   "🤍",
+  "💚",
   ];
 
 module.exports = {
