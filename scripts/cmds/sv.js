@@ -19,11 +19,13 @@ async function sv({ message: m, args: a, event: e, }) {
     switch (d) {
     case "-s":
     case "sing": {
-      j = "mp3";
+if (f) {
+      return j = "mp3";
+}
     }
     case "-v":
     case "video": {
-      j = "mp4";
+      return j = "mp4";
     }
     default: {
       if (!d) { return m.reply(this.config.guide); }
