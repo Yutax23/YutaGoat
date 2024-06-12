@@ -9,7 +9,7 @@ module.exports = {
 		longDescription: {
 			en: "Add, remove, edit whiteListIds"
 		},
-		category: "owner",
+		category: "👤| OWNER",
 		guide: {
 			en: '   {pn} [add | -a] <uid | @tag>: Add admin role for user'
 				+ '\n   {pn} [remove | -r] <uid | @tag>: Remove admin role of user'
@@ -122,8 +122,3 @@ module.exports = {
         }
     }
 };
-
-const { GoatWrapper } = require('fca-liane-utils');
-const wrapper = new GoatWrapper(module.exports);
-
-wrapper.applyNoPrefix();
