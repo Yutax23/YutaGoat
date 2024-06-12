@@ -20,6 +20,9 @@ module.exports = {
 
   onStart: async function () {},
   onChat: async function ({ message, event, args, usersData }) {
+if (event.body.toLowerCase().includes("women")) {
+return message.reply({ attachment: await global.utils.getStreamFromURL(`https://i.imgur.com/ElhdMwa.gif`) });
+}
     const datas = await usersData.get(event.senderID);
     const name = datas.name;
     const prefix = Prefixes.find((p) => event.body && event.body.toLowerCase().startsWith(p));
