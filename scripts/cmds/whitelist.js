@@ -9,7 +9,7 @@ module.exports = {
 		longDescription: {
 			en: "Add, remove, edit whiteListIds"
 		},
-		category: "👤| OWNER",
+		category: "ai",
 		guide: {
 			en: '   {pn} [add | -a] <uid | @tag>: Add admin role for user'
 				+ '\n   {pn} [remove | -r] <uid | @tag>: Remove admin role of user'
