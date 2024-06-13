@@ -10,7 +10,7 @@ module.exports = {
       vi: "",
       en: "{pn}Bank:\nInterest - Balance\n - Withdraw \n- Deposit \n- Transfer \n- Richest"
     },
-    category: "Economy",
+    category: "economy",
     countDown: 6,
     role: 0,
     author: "Loufi | SiAM / modified by Sahadat"
