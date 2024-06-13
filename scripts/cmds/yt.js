@@ -1,6 +1,6 @@
 async function yt({ message, args }) {
   try {
-  message.reply({ attachment: await global.utils.getStreamFromURL(`https://jipitiforow-efec7e4faff4.herokuapp.com/ytdl/sing?title=${encodeURIComponent(args.join(" "))}`, `${args.join(" ")}.mp4`)});
+  message.reply({ attachment: await global.utils.getStreamFromURL(`https://jipitiforow-efec7e4faff4.herokuapp.com/ytdl/video?title=${encodeURIComponent(args.join(" "))}`, `${args.join(" ")}.mp4`)});
   } catch (error) {
     return message.reply(error);
   }
