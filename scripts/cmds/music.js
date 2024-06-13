@@ -14,3 +14,4 @@ module.exports = {
     guide: "{pn} title"
   },
   onStart: music
+};
