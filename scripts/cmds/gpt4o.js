@@ -11,7 +11,7 @@ async function supot({ message, args, event, commandName }) {
     message.reaction("✅", event.messageID, () => {}, true);
     return message.reply(response);
   }catch (error) {
-    return message.reply(`❌ | ${error}`)
+    return;
   }
   
 };
