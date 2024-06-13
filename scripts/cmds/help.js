@@ -90,7 +90,7 @@ module.exports = {
 
         if (category !== "info") {
 
-          msg += `┏━━━━━━━━━\n┃ ⌜  ${font.bold(category.toUpperCase())}  ⌟\n`;
+          msg += `┏━━━━━━━━━\n┃ ⌜  ${font.bold(category.toUpperCase())}  ⌟\n┃\n`;
 
 
 
@@ -100,7 +100,7 @@ module.exports = {
 
             const cmds = names.slice(i, i + 1).map((item) => `${item}`);
 
-            msg += `┃ ${font.monospace(cmds.join(" ".repeat(Math.max(1, 10 - cmds.join("").length))))}\n`;
+            msg += `┃・❥・ ${font.monospace(cmds.join(" ".repeat(Math.max(1, 10 - cmds.join("").length))))}\n`;
 
           }
 
