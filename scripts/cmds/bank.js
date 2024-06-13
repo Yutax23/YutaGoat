@@ -48,16 +48,16 @@ if (!bankData[user]) {
     switch (command) {
 case "deposit":
   if (isNaN(amount) || amount <= 0) {
-    return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏Please enter a valid amount to deposit 🔁•\n\n");
+    return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏Please enter a valid amount to deposit 🔁•\n\n");
   }
 
 
   if (bankBalance >= 1e104) {
-    return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏You cannot deposit money when your bank balance is already at $1e104 ✖•\n\n");
+    return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏You cannot deposit money when your bank balance is already at $1e104 ✖•\n\n");
   }
 
   if (userMoney < amount) {
-    return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏You don't have the required amount to deposit ✖•\n\n");
+    return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏You don't have the required amount to deposit ✖•\n\n");
   }
 
   bankData[user].bank += amount;
@@ -66,7 +66,7 @@ case "deposit":
   });
 fs.writeFileSync(bankDataPath, JSON.stringify(bankData), "utf8");
 
-  return message.reply(`\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏Successfully deposited $${amount} into your bank account ✅•\n\n`);
+  return message.reply(`\n\n[🏦  Bank System 🏦]\n\n❏Successfully deposited $${amount} into your bank account ✅•\n\n`);
 break;
 
 
@@ -74,15 +74,15 @@ case "withdraw":
   const balance = bankData[user].bank || 0;
 
   if (isNaN(amount) || amount <= 0) {
-    return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏Please enter the correct amount to withdraw 😪•\n\n");
+    return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏Please enter the correct amount to withdraw 😪•\n\n");
   }
 
   if (userMoney >= 1e104) {
-    return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏You cannot withdraw money when your balance is already at 1e104 😒•\n\n");
+    return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏You cannot withdraw money when your balance is already at 1e104 😒•\n\n");
   }
 
   if (amount > balance) {
-    return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏The requested amount is greater than the available balance in your bank account 🗿•\n\n");
+    return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏The requested amount is greater than the available balance in your bank account 🗿•\n\n");
   }
 
   // Continue with the withdrawal if the userMoney is not at 1e104
@@ -91,21 +91,21 @@ case "withdraw":
     money: userMoney + amount
   });
 fs.writeFileSync(bankDataPath, JSON.stringify(bankData), "utf8");
-  return message.reply(`\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏Successfully withdrew $${amount} from your bank account ✅•\n\n`);
+  return message.reply(`\n\n[🏦  Bank System 🏦]\n\n❏Successfully withdrew $${amount} from your bank account ✅•\n\n`);
   break;
 
 
 case "balance":
   const formattedBankBalance = parseFloat(bankBalance);
   if (!isNaN(formattedBankBalance)) {
-    return message.reply(`\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏Your bank balance is: $${formatNumberWithFullForm(formattedBankBalance)}•\n❏ To withdraw money.
+    return message.reply(`\n\n[🏦  Bank System 🏦]\n\n❏Your bank balance is: $${formatNumberWithFullForm(formattedBankBalance)}•\n❏ To withdraw money.
  Type:
 -Bank Withdraw 'your withdrawal amount'
 ❏ To earn interest
 Type:
 -Bank Interest`);
   } else {
-    return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏Error: Your bank balance is not a valid number •😿\n\n");
+    return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏Error: Your bank balance is not a valid number •😿\n\n");
   }
   break;
 
@@ -124,13 +124,13 @@ case "interest":
     const remainingHours = Math.floor(remainingTime / 3600);
     const remainingMinutes = Math.floor((remainingTime % 3600) / 60);
 
-    return message.reply(`\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏You have taken your interest√\n\n•You can claim interest again within ${remainingHours} hours and ${remainingMinutes} minutes 😺\n\n`);
+    return message.reply(`\n\n[🏦  Bank System 🏦]\n\n❏You have taken your interest√\n\n•You can claim interest again within ${remainingHours} hours and ${remainingMinutes} minutes 😺\n\n`);
   }
 
   const interestEarned = bankData[user].bank * (interestRate / 970) * timeDiffInSeconds;
 
   if (bankData[user].bank <= 0) {
-        return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏You don't have any money in your bank account to earn interest 💸🥱•\n\n");
+        return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏You don't have any money in your bank account to earn interest 💸🥱•\n\n");
   }
 
   bankData[user].lastInterestClaimed = currentTime;
@@ -139,32 +139,32 @@ case "interest":
 fs.writeFileSync(bankDataPath, JSON.stringify(bankData), "utf8");
 
 
-return message.reply(`\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏You have earned interest of $${formatNumberWithFullForm(interestEarned)}\n\nIt has been successfully added to your account balance ✅•\n\n`);
+return message.reply(`\n\n[🏦  Bank System 🏦]\n\n❏You have earned interest of $${formatNumberWithFullForm(interestEarned)}\n\nIt has been successfully added to your account balance ✅•\n\n`);
 break;
 
 
 case "transfer":
   if (isNaN(amount) || amount <= 0) {
-    return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏Please enter a valid amount to transfer 🔁•\n\n");
+    return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏Please enter a valid amount to transfer 🔁•\n\n");
   }
 
   if (!recipientUID || !bankData[recipientUID]) {
-    return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏Recipient not found in the bank database. Please check the recipient's ID ✖•\n\n");
+    return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏Recipient not found in the bank database. Please check the recipient's ID ✖•\n\n");
   }
 
   if (recipientUID === user) {
-    return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏You cannot transfer money to yourself 😹•\n\n");
+    return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏You cannot transfer money to yourself 😹•\n\n");
   }
 
   const senderBankBalance = parseFloat(bankData[user].bank) || 0;
   const recipientBankBalance = parseFloat(bankData[recipientUID].bank) || 0;
 
   if (recipientBankBalance >= 1e104) {
-    return message.reply("\n\n[🏦 SheenaBot Bank System  🏦]\n\n❏The recipient's bank balance is already $1e104. You cannot transfer money to them 🗿•\n\n");
+    return message.reply("\n\n[🏦  Bank System  🏦]\n\n❏The recipient's bank balance is already $1e104. You cannot transfer money to them 🗿•\n\n");
   }
 
   if (amount > senderBankBalance) {
-    return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏You don't have enough money in your bank account for this transfer ✖•\n\n");
+    return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏You don't have enough money in your bank account for this transfer ✖•\n\n");
   }
 
   bankData[user].bank -= amount;
@@ -172,7 +172,7 @@ case "transfer":
 fs.writeFileSync(bankDataPath, JSON.stringify(bankData), "utf8");
 
 
-  return message.reply(`\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏Successfully transferred $${amount} to the recipient with UID: ${recipientUID} ✅•\n\n`);
+  return message.reply(`\n\n[🏦  Bank System 🏦]\n\n❏Successfully transferred $${amount} to the recipient with UID: ${recipientUID} ✅•\n\n`);
 break;
 
 
@@ -189,7 +189,7 @@ case "richest":
     return `${index + 1}. ${userName} - $${formattedBalance}`;
   }))).join('\n\n');
 
-  return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏Top 10 Richest people according to their bank balance 👑😺:\n\n" + output + "\n\n");
+  return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏Top 10 Richest people according to their bank balance 👑😺:\n\n" + output + "\n\n");
 
 break;
 
@@ -200,15 +200,15 @@ case "loan":
   const loanPayed = bankData[user].loanPayed !== undefined ? bankData[user].loanPayed : true;
 
   if (!amount) {
-    return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏Please enter a valid loan amount ✖•\n\n");
+    return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏Please enter a valid loan amount ✖•\n\n");
   }
 
   if (amount > maxLoanAmount) {
-    return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏The maximum loan amount is $4000 ❗•\n\n");
+    return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏The maximum loan amount is $4000 ❗•\n\n");
   }
 
   if (!loanPayed && userLoan > 0) {
-    return message.reply(`\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏You cannot take a new loan until you pay off your current loan.\n\nYour current loan to pay: $${userLoan} 😑•\n\n`);
+    return message.reply(`\n\n[🏦  Bank System 🏦]\n\n❏You cannot take a new loan until you pay off your current loan.\n\nYour current loan to pay: $${userLoan} 😑•\n\n`);
   }
 
   bankData[user].loan = userLoan + amount;
@@ -218,7 +218,7 @@ case "loan":
 fs.writeFileSync(bankDataPath, JSON.stringify(bankData), "utf8");
 
 
-  return message.reply(`\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏You have successfully taken a loan of $${amount}. Please note that loans must be repaid within a certain period 😉•\n\n`);
+  return message.reply(`\n\n[🏦  Bank System 🏦]\n\n❏You have successfully taken a loan of $${amount}. Please note that loans must be repaid within a certain period 😉•\n\n`);
 
 break;
 
@@ -226,19 +226,19 @@ case "payloan":
   const loanBalance = bankData[user].loan || 0;
 
   if (isNaN(amount) || amount <= 0) {
-    return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏Please enter a valid amount to repay your loan ✖•\n\n");
+    return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏Please enter a valid amount to repay your loan ✖•\n\n");
   }
 
   if (loanBalance <= 0) {
-    return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏You don't have any pending loan payments•\n\n✧⁺⸜(●˙▾˙●)⸝⁺✧ʸᵃʸ\n\n");
+    return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏You don't have any pending loan payments•\n\n✧⁺⸜(●˙▾˙●)⸝⁺✧ʸᵃʸ\n\n");
   }
 
   if (amount > loanBalance) {
-    return message.reply(`\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏The amount required to pay off the loan is greater than your due amount. Please pay the exact amount 😊•\nYour total loan: $${loanBalance}\n\n`);
+    return message.reply(`\n\n[🏦  Bank System 🏦]\n\n❏The amount required to pay off the loan is greater than your due amount. Please pay the exact amount 😊•\nYour total loan: $${loanBalance}\n\n`);
   }
 
   if (amount > userMoney) {
-    return message.reply(`\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏You do not have $${amount} in your balance to repay the loan 😿•\n\n`);
+    return message.reply(`\n\n[🏦  Bank System 🏦]\n\n❏You do not have $${amount} in your balance to repay the loan 😿•\n\n`);
   }
 
   bankData[user].loan = loanBalance - amount;
@@ -254,12 +254,12 @@ case "payloan":
 fs.writeFileSync(bankDataPath, JSON.stringify(bankData), "utf8");
 
 
-  return message.reply(`\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏Successfully repaid $${amount} towards your loan. Your current loan to pay: $${bankData[user].loan} ✅•\n\n`);
+  return message.reply(`\n\n[🏦  Bank System 🏦]\n\n❏Successfully repaid $${amount} towards your loan. Your current loan to pay: $${bankData[user].loan} ✅•\n\n`);
 
 break;
 
 default:
-  return message.reply("\n\n[🏦 SheenaBot Bank System 🏦]\n\n❏Please use one of the following valid commands:\n-Bank Deposit\n-Bank Withdraw\n-Bank Balance\n-Bank Interest\n-Bank Transfer\n-Bank Richest\n-Bank Loan\n-bank PayLoan\n\n");
+  return message.reply("\n\n[🏦  Bank System 🏦]\n\n❏Please use one of the following valid commands:\n-Bank Deposit\n-Bank Withdraw\n-Bank Balance\n-Bank Interest\n-Bank Transfer\n-Bank Richest\n-Bank Loan\n-bank PayLoan\n\n");
 }
   }
 };
