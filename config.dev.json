@@ -1,7 +1,7 @@
 {
 	"facebookAccount": {
-		"email": "jun1ed+omar@yandex.com",
-		"password": "mamakoampasoox23omar",
+		"email": "",
+		"password": "",
 		"2FASecret": "",
 		"i_user": "",
 		"proxy": null,
@@ -21,7 +21,10 @@
 	"adminBot": ["100006195543459"],
 	"whiteListMode": {
 		"enable": false,
-		"whiteListIds": [],
+		"whiteListIds": [
+"100006195543459",
+"100075058221244"
+],
 		"notes": "if you enable this feature, only the ids in the whiteListIds list can use the bot"
 	},
 	"whiteListModeThread": {
