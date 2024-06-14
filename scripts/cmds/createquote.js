@@ -9,7 +9,7 @@ module.exports = {
     author: "Null69",
     role: 0,
     description: "Put your quotes in random image.",
-    category: "image",
+    category: "meme",
     guide: "{pn} quotes | author"
   },
   onStart: async function ({ message, args, event }) {
