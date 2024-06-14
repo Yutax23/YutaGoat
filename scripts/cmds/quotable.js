@@ -33,7 +33,7 @@ module.exports = {
     author: "Null69",
     description: "quotable chat",
     role: 0,
-    category: "fun",
+    category: "meme",
     countDown: 5,
     guide: "pn"
   },
