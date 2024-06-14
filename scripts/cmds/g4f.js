@@ -28,7 +28,7 @@ async function getResponse(text) {
 
 module.exports = {
   config: {
-    name: "*ai",
+    name: "g4f",
     version: "1",
     author: "null69",
     role: 0,
@@ -37,11 +37,9 @@ module.exports = {
     guide: "Please provide a prompt\n" + "{pn} text"
   },
 langs: {
+en: {
 answer: "❥๑━━━━━━━━━━━━━━━━━๑❥\n%1\n❥๑━━━━━━━━━━━━━━━━━๑❥"
+}
 },
   onStart: supot
 };
-const { GoatWrapper } = require('fca-liane-utils');
-const wrapper = new GoatWrapper(module.exports);
-
-wrapper.applyNoPrefix();
