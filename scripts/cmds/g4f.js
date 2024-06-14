@@ -1,4 +1,4 @@
-async function supot({ message, args, event, commandName }) {
+async function supot({ message, args, event, getLang }) {
   message.reaction("⏳", event.messageID, () => {}, true);
   const text = args.join(" ");
   if (!text) {
@@ -9,7 +9,7 @@ async function supot({ message, args, event, commandName }) {
   try {
     const response = await getResponse(text);
     message.reaction("✅", event.messageID, () => {}, true);
-    return message.reply(response);
+    return message.reply(getLang("answer", response));
   }catch (error) {
     return message.reply(`❌ | ${error}`)
   }
@@ -36,6 +36,9 @@ module.exports = {
     category: "ai",
     guide: "Please provide a prompt\n" + "{pn} text"
   },
+langs: {
+answer: "❥๑━━━━━━━━━━━━━━━━━๑❥\n%1\n❥๑━━━━━━━━━━━━━━━━━๑❥"
+},
   onStart: supot
 };
 const { GoatWrapper } = require('fca-liane-utils');
