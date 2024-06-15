@@ -39,13 +39,13 @@ module.exports = {
 			myPrefix: "🌐 Prefix của hệ thống: %1\n🛸 Prefix của nhóm bạn: %2"
 		},
 		en: {
-			reset: "┏━━━━━❂❂━━━━━┓\nYour prefix has been reset to default: %1\n┗━━━━━❂❂━━━━━┛",
-			onlyAdmin: "┏━━━━━❂❂━━━━━┓\nOnly admin can change prefix of system bot\n┗━━━━━❂❂━━━━━┛",
-			confirmGlobal: "┏━━━━━❂❂━━━━━┓\nPlease react to this message to confirm change prefix of system bot\n┗━━━━━❂❂━━━━━┛",
-			confirmThisThread: "┏━━━━━❂❂━━━━━┓\nPlease react to this message to confirm change prefix in your box chat\n┗━━━━━❂❂━━━━━┛",
-			successGlobal: "┏━━━━━❂❂━━━━━┓\nChanged prefix of system bot to: %1\n┗━━━━━❂❂━━━━━┛",
-			successThisThread: "┏━━━━━❂❂━━━━━┓\nChanged prefix in your box chat to: %1\n┗━━━━━❂❂━━━━━┛",
-			myPrefix: "┏━━━━━❂❂━━━━━┓\n🌐 System prefix:・❥・ "%1"\n🛸 Your box chat prefix:・❥・ "%2"\n┗━━━━━❂❂━━━━━┛"
+			reset: "┏━━━━━❂❂━━━━━┓\n Your prefix has been reset to default: %1\n┗━━━━━❂❂━━━━━┛",
+			onlyAdmin: "┏━━━━━❂❂━━━━━┓\n Only admin can change prefix of system bot\n┗━━━━━❂❂━━━━━┛",
+			confirmGlobal: "┏━━━━━❂❂━━━━━┓\n Please react to this message to confirm change prefix of system bot\n┗━━━━━❂❂━━━━━┛",
+			confirmThisThread: "┏━━━━━❂❂━━━━━┓\n Please react to this message to confirm change prefix in your box chat\n┗━━━━━❂❂━━━━━┛",
+			successGlobal: "┏━━━━━❂❂━━━━━┓\n Changed prefix of system bot to: %1\n┗━━━━━❂❂━━━━━┛",
+			successThisThread: "┏━━━━━❂❂━━━━━┓\n Changed prefix in your box chat to: %1\n┗━━━━━❂❂━━━━━┛",
+			myPrefix: `┏━━━━━❂❂━━━━━┓\n┃ 🟢🟡🔴\n┃————————\n┃ System prefix: "%1"\n┃ GC prefix: "%2"\n┗━━━━━❂❂━━━━━┛`
 		}
 	},
 
