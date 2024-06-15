@@ -39,7 +39,7 @@ module.exports = {
 	onStart: async function ({ message, event, getLang }) {
 		const pathFile = `${__dirname}/tmp/restart.txt`;
 		fs.writeFileSync(pathFile, `${event.threadID} ${Date.now()}`);
-		await message.reply(getLang("restartting"));
+		 await message.reply({ body: getLang("restartting"), attachment: await global.utils.getStreamFromURL(`https://i.imgur.com/JdWyZWV.gif`, "restart.gif")});
 		process.exit(2);
 	}
 };
