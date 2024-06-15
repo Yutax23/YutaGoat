@@ -37,10 +37,17 @@ module.exports = {
 
     const winnings = calculateWinnings(guess, slot1, slot2, slot3, amount);
 
-    await usersData.set(senderID, {
-      money: userData.money + winnings,
-      data: userData.data,
-    });
+    if (winnings === 0) {
+      await usersData.set(senderID, {
+        money: userData.money,
+        data: userData.data,
+      });
+    } else {
+      await usersData.set(senderID, {
+        money: userData.money + winnings,
+        data: userData.data,
+      });
+    }
 
     const messageText = getSpinResultMessage(slot1, slot2, slot3, winnings, getLang);
 
@@ -73,4 +80,4 @@ function getSpinResultMessage(slot1, slot2, slot3, winnings, getLang) {
   } else {
     return getLang("nothing_happened") + `\n[ ${slot1} | ${slot2} | ${slot3} ]\n━━━━━━━━━━━━━━━━━━`;
   }
-}
+};
