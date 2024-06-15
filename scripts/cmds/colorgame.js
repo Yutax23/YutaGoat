@@ -68,6 +68,7 @@ function calculateWinnings(guess, slot1, slot2, slot3, betAmount) {
 function getSpinResultMessage(slot1, slot2, slot3, winnings, getLang) {
   if (winnings > 0) {
     return getLang("win_message", winnings) + `\n[ ${slot1} | ${slot2} | ${slot3} ]\n━━━━━━━━━━━━━━━━━━`;
-  } else getLang("lose_message", -winnings) + `\n[ ${slot1} | ${slot2} | ${slot3} ]\n━━━━━━━━━━━━━━━━━━`;
+  } else {
+    return getLang("lose_message", -winnings) + `\n[ ${slot1} | ${slot2} | ${slot3} ]\n━━━━━━━━━━━━━━━━━━`;
   }
-  
+};
