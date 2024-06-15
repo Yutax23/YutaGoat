@@ -18,7 +18,7 @@ module.exports = {
     const { senderID } = event;
     const userData = await usersData.get(senderID);
 
-    const userGuess = await message.awaitReply(getLang("guess_message"));
+    const userGuess = await message.reply(getLang("guess_message"));
 
     const randomNumber = Math.floor(Math.random() * 70) + 1;
     const winnings = calculateWinnings(randomNumber, userGuess);
