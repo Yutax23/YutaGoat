@@ -6,7 +6,7 @@ async function llama({ args, message, getLang, api }) {
   }
   try {
     const a = require('axios');
-    const c = await a.get(`https://deku-rest-api-ywad.onrender.com/api/llama-3-70b?q=${encodeURIComponent(query)}`);
+    const c = await a.get(`https://joshweb.click/api/llama-3-70b?q=${encodeURIComponent(query)}`);
     api.editMessage(getLang("answer", c.data.result), b.messageID);
   } catch (error) {
      return api.editMessage(getLang("answer", error));
