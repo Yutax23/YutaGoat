@@ -30,7 +30,7 @@ async function sdxl({ event, message, args }) {
   const text = sdxl[0].trim();
   const model = sdxl[1].trim();
   message.reaction("⏱️", event.messageID, () => {}, true);
-  const { data: image } = await axios.get(`https://deku-rest-api-3ijr.onrender.com/sdxl?q=${encodeURIComponent(prompt)}&style=${model}`, { responseType: "stream" } );
+  const { data: image } = await axios.get(`https://joshweb.click/sdxl?q=${encodeURIComponent(prompt)}&style=${model}`, { responseType: "stream" } );
   
   if (image) {
   message.reply({ attachment: image });
