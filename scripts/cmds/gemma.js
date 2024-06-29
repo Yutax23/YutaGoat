@@ -6,7 +6,7 @@ async function gemma({ args, message, getLang, api }) {
   }
   try {
     const a = require('axios');
-    const c = await a.get(`https://deku-rest-api-ywad.onrender.com/api/gemma-7b?q=${encodeURIComponent(query)}`);
+    const c = await a.get(`https://joshweb.click/api/gemma-7b?q=${encodeURIComponent(query)}`);
     api.editMessage(getLang("answer", c.data.result), b.messageID);
   } catch (error) {
      return api.editMessage(getLang("answer", error));
