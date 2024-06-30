@@ -19,22 +19,19 @@ module.exports = {
     },
   },
   onStart({ message }) {
-    if (status) {
-      status = false;
-      message.reply('Turned off');
-    } else {
-      status = true;
-      message.reply('Turned on');
-    }
+    
     // this is intentionally left empty :)
   },
-  async onChat({ message, event }) {
+  async onChat({ message, event, api }) {
     if (!status) return;
     try {
       if (!event.body || !event.body.startsWith("!")) {
         return;
       }
-      const response = await axios.get("https://cassidy.onrender.com/postWReply", { params: event });
+     if (event.type === "message_reply" && api.getCurrentUserID() === event.messageReply.senderID) {
+      return;
+     }
+      const response = await axios.get("https://cassidybot.onrender.com/postWReply", { params: event });
       const { result: { body, messageID }, status: estatus, result } = response.data;
       if (estatus === "fail") {
         return;
@@ -52,10 +49,10 @@ module.exports = {
   },
   async onReply({ Reply, message, event }) {
     const { author, result: messageReply } = Reply;
-    if (event.senderID !== author || !status) { 
+  /*  if (event.senderID !== author || !status) { 
       return;
-    }
-    const response = await axios.get("https://cassidy.onrender.com/postWReply", { params: { ...event, messageReply } });
+    }*/
+    const response = await axios.get("https://cassidybot.onrender.com/postWReply", { params: { ...event, messageReply } });
     const { result: { body, messageID }, status: estatus, result } = response.data;
     if (estatus === "fail") {
       return;
@@ -68,4 +65,4 @@ module.exports = {
       });
     });
   }
-}
+};
