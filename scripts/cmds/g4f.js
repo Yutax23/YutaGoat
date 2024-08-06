@@ -9,7 +9,7 @@ async function supot({ message, args, event, getLang }) {
   try {
     const response = await getResponse(text);
     message.reaction("✅", event.messageID, () => {}, true);
-    return message.reply(getLang("answer", response));
+    return message.reply(response);
   }catch (error) {
     return message.reply(`❌ | ${error}`)
   }
