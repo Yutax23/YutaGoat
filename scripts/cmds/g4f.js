@@ -38,7 +38,7 @@ module.exports = {
   },
 langs: {
 en: {
-answer: "❥๑━━━━━━━━━━━━━━━━━๑❥\n%1\n❥๑━━━━━━━━━━━━━━━━━๑❥"
+answer: ""
 }
 },
   onStart: supot
