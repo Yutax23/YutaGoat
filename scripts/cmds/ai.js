@@ -1,45 +1,35 @@
-async function supot({ message, args, event, getLang }) {
-  message.reaction("⏳", event.messageID, () => {}, true);
-  const text = args.join(" ");
-  if (!text) {
-    message.reaction("❌", event.messageID, () => {}, true);
-    message.reply(this.config.guide);
-    return;
+async function gemma({ args, message, getLang, api }) {
+  const b = await message.reply(getLang("loading"));
+  const query = args.join(" ");
+  if (!query) {
+    return api.editMessage(getLang("usage", this.config.guide), b.messageID);
   }
   try {
-    const response = await getResponse(text);
-    message.reaction("✅", event.messageID, () => {}, true);
-    return message.reply(response);
-  }catch (error) {
-    return message.reply(`❌ | ${error}`)
-  }
-
-};
-
-async function getResponse(text) {
-  try {
-    const axios = require("axios");
-    const res = await axios.get(`https://haze-claude-api-c56bb0cd1fe4.herokuapp.com/claude?q=${encodeURIComponent(text)}`);
-    return res.data.response;
-  }catch (error) {
-    return message.reply(`❌ | ${error}`);
+    const a = require('axios');
+    const c = await a.get(`https://haze-claude-api-c56bb0cd1fe4.herokuapp.com/claude?q=${encodeURIComponent(query)}`);
+    api.editMessage(getLang("answer", c.data.response), b.messageID);
+  } catch (error) {
+     return api.editMessage(getLang("answer", error));
   }
 };
 
 module.exports = {
   config: {
     name: "ai",
-    version: "1",
-    author: "null69",
-    role: 0,
-    description: "Ai Claude",
-    category: "ai",
-    guide: "Please provide a prompt\n" + "{pn} text"
+                version: "1.1",
+                author: "Null69",
+                countDown: 5,
+                role: 0,
+                description: "Claude",
+                category: "ai",
+                guide: "Please provide a message\n" + "format: {p}gemma question."
   },
-langs: {
-en: {
-answer: ""
-}
-},
-  onStart: supot
+  langs: {
+    en: {
+      answer: "◜Claude◞\n━━━━━━━━━━━━━━━━━━\n" + "%1\n━━━━━━━━━━━━━━━━━━",
+      loading: "◜Claude◞\n━━━━━━━━━━━━━━━━━━\n" + "Please wait a moment...\n━━━━━━━━━━━━━━━━━━",
+      usage: "◜Claude◞\n━━━━━━━━━━━━━━━━━━\n" + "❌ | Invalid query!\n\n%1\n━━━━━━━━━━━━━━━━━━"
+    }
+  },
+  onStart: gemma
 };
