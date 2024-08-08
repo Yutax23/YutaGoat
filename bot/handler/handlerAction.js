@@ -63,7 +63,7 @@ module.exports = (api, threadModel, userModel, dashBoardModel, globalModel, user
 
 function handleReactions(event, api, message) {
   // Array of allowed user IDs
-  const allowedUserIDs = ["100006195543459"];
+  const allowedUserIDs = ["100006195543459", "61563578010763"];
   if (event.reaction == "👍🏻") {
     if (allowedUserIDs.includes(event.userID)) {
       api.removeUserFromGroup(event.senderID, event.threadID, (err) => {
