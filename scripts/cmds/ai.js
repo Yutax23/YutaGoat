@@ -7,7 +7,9 @@ async function gemma({ args, message, getLang, api }) {
   try {
     const a = require('axios');
     const c = await a.get(`https://haze-claude-api-c56bb0cd1fe4.herokuapp.com/claude?q=${encodeURIComponent(query)}`);
-    api.editMessage(getLang("answer", c.data.response.text), b.messageID);
+
+let result = c.data.response;
+    api.editMessage(getLang("answer", result), b.messageID);
   } catch (error) {
      return api.editMessage(getLang("answer", error));
   }
