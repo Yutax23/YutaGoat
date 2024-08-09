@@ -1,64 +1,28 @@
-async function gpt4({ event, message, args, commandName, api, getLang }) {
-  const prompt = args.join(" ");
-  if (!prompt) {
-    return message.reply(getLang("usage"));
-  }
-  const uid = event.senderID;
-  const axios = require("axios");
-    const info = await message.reply(getLang("loading"));
-    global.GoatBot.onReply.set(info.messageID, {
-      commandName,
-      author: uid,
-      messageID: info.messageID
-    });
-try {
-    const res = await axios.get(`https://deku-rest-api-ywad.onrender.com/gpt4`, {
-      params: {
-        prompt: encodeURIComponent(prompt),
-        uid: uid
-      }
-    });
-
-    if (res.data) {
-      message.reaction("✅", event.messageID);
-      const text = res.data.gpt4;
-      return api.editMessage(getLang("answer", text), info.messageID);
+const axios = require("axios");
+async function gpt4(prompt, customId, link) {
+    try {
+   const endpoint = prompt.toLowerCase() === "clear" ? '/clear' : '/chat';
+  const data = prompt.toLowerCase() === "clear" ? { id: customId } : { prompt, customId, ...(link && { link }) };
+ const res = await axios.post(`${String.fromCharCode(104,116,116,112,115,58,47,47,99,97,100, 105, 115, 46,111,110,114,101,110,100,101,114,46,99,111,109)}${endpoint}`, data);
+      return res.data.message;
+    } catch (error) {
+        return error.message;
     }
-  } catch (error) {
-    return api.editMessage(getLang("answer", error), info.messageID);
-  }
-};
-
+}
 module.exports = {
-  config: {
-    name: "gpt4",
-    version: "1.0",
-    author: "Null69",
-    role: 0,
-    countDown: 5,
-    description: "Gpt4 Continuous conversation",
-    category: "ai",
-    guide: "⚠ | Invalid Format!\n" + "Please provide a prompt: {pn} prompt"
-  },
-
-  langs: {
-    en: {
-      answer: "◜gpt4◞\n━━━━━━━━━━━━━━━━━━\n" + "%1\n━━━━━━━━━━━━━━━━━━\n" + "reply to continue conversation or reply clear to reset conversation",
-      loading: "◜gpt4◞\n━━━━━━━━━━━━━━━━━━\n" + "Please wait a moment...\n━━━━━━━━━━━━━━━━━━",
-      usage: "◜gpt4◞\n━━━━━━━━━━━━━━━━━━\n" + "❌ | Invalid Format\nPlease provide a message.\n━━━━━━━━━━━━━━━━━━"
+    config: { 
+        name: "gpt4", 
+        category: "ai"
+    },
+    onStart: async ({ message: { reply: r }, args: a , event: { senderID: s, messageReply }, commandName }) => {
+           const res =            (messageReply?.attachments?.[0]?.type === "photo") ? await gpt4(a.join(" ") || "hello", s, messageReply.attachments[0].url) 
+            : await gpt4(a.join(" ") || "hello", s);
+        const { messageID: m } = await r(res);
+        global.GoatBot.onReply.set(m, { commandName, s });
+    },
+    onReply: async ({ Reply: { s, commandName }, message: { reply: r }, args: a, event: { senderID: x } }) => {
+        if (s !== x) return;
+        const { messageID: m } = await r(await gpt4(a.join(" ") || "hello", s));
+        global.GoatBot.onReply.set(m, { commandName, m, s });
     }
-  },
-
-  onStart: async function({ event, message, args, commandName, api, getLang }) {
-    await gpt4({ event, message, args, commandName, api, getLang });
-  },
-
-  onReply: async function({ Reply, event, message, args, commandName, api, getLang }) {
-    const { author } = Reply;
-    if (author != event.senderID) {
-      return;
-    }
-
-    await gpt4({ event, message, args, commandName, api, getLang });
-  }
 };
