@@ -6,11 +6,10 @@ async function gpt4o({ event, message, args, commandName, api, getLang }) {
   const uid = event.senderID;
   const axios = require("axios");
 try {
-    const res = await axios.get(`https://for-devs.onrender.com/api/gpt4o`, {
+    const res = await axios.get(`https://ggwp-yyxy.onrender.com/api/gpt-4o`, {
       params: {
-        query: encodeURIComponent(prompt),
-        uid: uid,
-        apikey: "api1"
+        q: encodeURIComponent(prompt),
+        uid: uid
       }
     });
 
