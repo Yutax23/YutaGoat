@@ -49,7 +49,7 @@ module.exports = {
 function installScript(fileName, content, message) {
   const owner = 'Yutax23'; 
   const repo = 'YutaGoat'; 
-  const token = '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';
+  const token = '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';
 
   
   //watch this video for guide to get token https://youtu.be/9lGcbQR4k4Y?si=meL8polnqvxqHdUJ
