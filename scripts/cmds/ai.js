@@ -1,37 +1,18 @@
-async function gemma({ args, message, getLang, api }) {
-  const b = await message.reply(getLang("loading"));
-  const query = args.join(" ");
-  if (!query) {
-    return api.editMessage(getLang("usage", this.config.guide), b.messageID);
-  }
-  try {
-    const a = require('axios');
-    const c = await a.get(`https://haze-claude-api-c56bb0cd1fe4.herokuapp.com/claude?q=${encodeURIComponent(query)}`);
-
-let result = c.data.response[0].text;
-    api.editMessage(getLang("answer", result), b.messageID);
-  } catch (error) {
-     return api.editMessage(getLang("answer", error));
-  }
-};
-
 module.exports = {
-  config: {
-    name: "ai",
-                version: "1.1",
-                author: "Null69",
-                countDown: 5,
-                role: 0,
-                description: "Claude",
-                category: "ai",
-                guide: "Please provide a message\n" + "format: {p}gemma question."
-  },
-  langs: {
-    en: {
-      answer: "◜Claude◞\n━━━━━━━━━━━━━━━━━━\n" + "%1\n━━━━━━━━━━━━━━━━━━",
-      loading: "◜Claude◞\n━━━━━━━━━━━━━━━━━━\n" + "Please wait a moment...\n━━━━━━━━━━━━━━━━━━",
-      usage: "◜Claude◞\n━━━━━━━━━━━━━━━━━━\n" + "❌ | Invalid query!\n\n%1\n━━━━━━━━━━━━━━━━━━"
-    }
-  },
-  onStart: gemma
+config: {
+name: "ai", 
+author: "nuill69",
+category: "ai" 
+},
+onStart: () => {},
+onChat: async function ({ message: { reply: r }, args: a, event: { body } })  {
+if(!body?.toLowerCase().startsWith("xyrene"))
+return;
+require("axios").get(`https://haze-claude-api-c56bb0cd1fe4.herokuapp.com/claude?q=${a.slice(1).join(" ") || "hello"}`)
+.then(({data}) => {
+  const responseText = data.response?.[0]?.text || "Sorry, I couldn't process your request.";
+  r(responseText);
+})
+.catch(({message:_}) => r(_));
+}
 };
