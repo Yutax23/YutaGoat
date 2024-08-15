@@ -1,7 +1,7 @@
 module.exports = {
 config: {
 name: "ai", 
-author: "nuill69",
+author: "null69",
 category: "ai" 
 },
 onStart: () => {},
