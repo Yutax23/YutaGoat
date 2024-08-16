@@ -1,8 +1,8 @@
 async function spotify({ message, args, getLang }) {
   try {
     const axios = require("axios");
-    const res = await axios.get(`https://joshweb.click/spotify?q=${encodeURI(args.join(" "))}`);
-    const tiny = await global.utils.shortenURL(res.data.result);
+    const res = await axios.get(`https://hiroshi-rest-api.replit.app/search/spotify?search=${encodeURI(args.join(" "))}`);
+    const tiny = await global.utils.shortenURL(res.data.download);
   message.send({ attachment: await global.utils.getStreamFromURL(tiny)});
   const msg = "📎 | 𝗱𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗵𝗲𝗿𝗲: " + tiny;
   await message.reply(getLang("headers", msg));
