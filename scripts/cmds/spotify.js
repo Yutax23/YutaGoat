@@ -15,10 +15,8 @@ async function spotify({ message, args }) {
     
     const msg = `🎵 | ${track.name}\n🔗 | [Spotify Link](${track.track})\n📎 | [Download here](${tiny})`;
 
-    await message.send({ 
-      body: msg,
-      attachment: att
-      });
+    await message.send(msg);
+    await message.send({ attachment: att });
   } catch (error) {
     return message.reply(`An error occurred: ${error.message}`);
   }
