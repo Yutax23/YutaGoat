@@ -1,28 +1,37 @@
-async function spotify({ message, args, getLang }) {
+async function spotify({ message, args }) {
   try {
     const axios = require("axios");
     const res = await axios.get(`https://hiroshi-rest-api.replit.app/search/spotify?search=${encodeURI(args.join(" "))}`);
-    const tiny = await global.utils.shortenURL(res.data.download);
-  message.send({ attachment: await global.utils.getStreamFromURL(tiny)});
-  const msg = "📎 | 𝗱𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗵𝗲𝗿𝗲: " + tiny;
-  await message.reply(getLang("headers", msg));
+
+    // Assuming the response is an array of tracks
+    const track = res.data[0];
+    
+    if (!track) {
+      return message.reply("No results found.");
+    }
+
+    const tiny = await global.utils.shortenURL(track.download);
+    const att = await global.utils.getStreamFromURL(tiny);
+    
+    const msg = `🎵 | ${track.name}\n🔗 | [Spotify Link](${track.track})\n📎 | [Download here](${tiny})`;
+
+    await message.send({ 
+      body: msg,
+      attachment: att
+      });
   } catch (error) {
-    return message.reply(error);
+    return message.reply(`An error occurred: ${error.message}`);
   }
 };
+
 module.exports = {
   config: {
     name: "spotify",
     author: "null69",
-    description: "play music",
+    description: "Play and download music from Spotify",
     category: "spotify downloader",
-    guide: "{pn} title"
+    guide: "{pn} <song title>"
   },
-  
-  langs: {
-    en: {
-      headers: "◜𝗦𝗣𝗢𝗧𝗜𝗙𝗬 𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗥◞\n━━━━━━━━━━━━━━━━━━\n" + "%1\n━━━━━━━━━━━━━━━━━━",
-  }
-  },
+
   onStart: spotify
 };
