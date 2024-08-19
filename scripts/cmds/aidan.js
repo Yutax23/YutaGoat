@@ -42,7 +42,7 @@ module.exports = {
     try {
       const uid = event.senderID;
       const response = await axios.get(
-        `https://for-devs.onrender.com/api/gpt?query=${encodeURIComponent(prompt)}&uid=${uid}&jbprompt=${encodeURIComponent(jb)}&apikey=r-fbe7302b0890394458fed07c`
+        `https://for-devs.onrender.com/api/gpt?query=${encodeURIComponent(prompt)}&uid=${uid}&jbprompt=${encodeURIComponent(jb)}&apikey=r-d63e099718447d4d45b4c980`
       );
 
       if (response.data && response.data.result) {
@@ -75,7 +75,7 @@ module.exports = {
     try {
       const uid = event.senderID;
       const response = await axios.get(
-        `https://for-devs.onrender.com/api/gpt?query=${encodeURIComponent(prompt)}&uid=${uid}aidan&jbprompt=${jb}&apikey=r-fbe7302b0890394458fed07c`
+        `https://for-devs.onrender.com/api/gpt?query=${encodeURIComponent(prompt)}&uid=${uid}aidan&jbprompt=${jb}&apikey=r-d63e099718447d4d45b4c980`
       );
 
       if (response.data && response.data.result) {
