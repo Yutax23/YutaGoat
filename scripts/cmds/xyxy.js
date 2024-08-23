@@ -13,7 +13,7 @@ try {
       }
     });
 
-    if (res.data.response) {
+    if (res.data.result) {
       message.reaction("✅", event.messageID);
       const text = res.data.response;
        message.reply(getLang("answer", text), (err, info) => {
