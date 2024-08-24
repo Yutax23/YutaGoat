@@ -38,7 +38,7 @@ module.exports = {
     try {
       const uid = event.senderID;
       const response = await axios.get(
-        `https://deku-rest-api.gleeze.com/cai/chat?character=squidward&uid=4&q=${encodeURIComponent(prompt)}`
+        `https://deku-rest-api.gleeze.com/cai/chat?character=squidward&uid=${uid}&q=${encodeURIComponent(prompt)}`
       );
 
       if (response.data && response.data.result) {
@@ -71,7 +71,7 @@ module.exports = {
     try {
       const uid = event.senderID;
       const response = await axios.get(
-        `https://deku-rest-api.gleeze.com/cai/chat?character=squidward&uid=4&q=${encodeURIComponent(prompt)}`
+        `https://deku-rest-api.gleeze.com/cai/chat?character=squidward&uid=${uid}&q=${encodeURIComponent(prompt)}`
       );
 
       if (response.data && response.data.result) {
