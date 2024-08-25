@@ -3,13 +3,13 @@ async function xyxy({ event, message, args, commandName, api, getLang }) {
   if (!prompt) {
     return message.reply(getLang("usage"));
   }
-  const uid = event.senderID;
+  const id = event.senderID;
   const axios = require("axios");
 try {
     const res = await axios.get(`https://deku-rest-api.gleeze.com/api/gpt4`, {
       params: {
-        q: encodeURIComponent(prompt),
-        id: uid
+        prompt: encodeURIComponent(prompt),
+        uid: id
       }
     });
 
@@ -20,7 +20,7 @@ try {
         if (!err) {
     global.GoatBot.onReply.set(info.messageID, {
       commandName,
-      author: uid,
+      author: id,
       messageID: info.messageID
     });
       }
