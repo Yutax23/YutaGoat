@@ -6,7 +6,7 @@ async function xyxy({ event, message, args, commandName, api, getLang }) {
   const uid = event.senderID;
   const axios = require("axios");
 try {
-    const res = await axios.get(`https://deku-rest-api.gleeze.com/api/gpt-4o`, {
+    const res = await axios.get(`https://deku-rest-api.gleeze.com/api/gpt4`, {
       params: {
         q: encodeURIComponent(prompt),
         id: uid
