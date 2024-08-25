@@ -13,7 +13,7 @@ try {
       }
     });
 
-    if (res.data.result) {
+    if (res.data.gpt4) {
       message.reaction("✅", event.messageID);
       const text = res.data.response;
        message.reply(getLang("answer", text), (err, info) => {
