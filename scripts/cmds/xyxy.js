@@ -15,7 +15,7 @@ try {
 
     if (res.data.gpt4) {
       message.reaction("✅", event.messageID);
-      const text = res.data.response;
+      const text = res.data.gpt4;
        message.reply(getLang("answer", text), (err, info) => {
         if (!err) {
     global.GoatBot.onReply.set(info.messageID, {
