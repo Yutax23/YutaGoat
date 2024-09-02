@@ -1,103 +1,72 @@
-const axios = require("axios");
-const Prefixes = [
-  'squid'
-];
+async function xyxy({ event, message, args, commandName, api, getLang }) {
+  const prompt = args.join(" ");
+  if (!prompt) {
+    return message.reply(getLang("usage"));
+  }
+  const uid = event.senderID;
+  const axios = require("axios");
+try {
+    const res = await axios.get(`https://www.samirxpikachu.run.place/persona`, {
+      params: {
+        prompt: encodeURIComponent(prompt),
+        model: "llama-3-70b-chat",
+        system: "You are Squidward From a cartoon SpongeBob SquarePants",
+        userid: uid
+      }
+    });
+
+    if (res.data) {
+      message.reaction("✅", event.messageID);
+      const text = res.data;
+       message.reply(getLang("answer", text), (err, info) => {
+        if (!err) {
+    global.GoatBot.onReply.set(info.messageID, {
+      commandName,
+      author: uid,
+      messageID: info.messageID
+    });
+      }
+       });
+    }
+  } catch (error) {
+    return message.reply(getLang("answer", error));
+  }
+};
 
 module.exports = {
   config: {
     name: "squid",
     version: "1.0",
-    author: "Null69 | Deku",
-    countDown: 5,
+    author: "Null69",
     role: 0,
-    shortDescription: {
-      vi: "chat with gpt",
-      en: "chat with gpt"
-    },
-    longDescription: {
-      vi: "chat with gpt",
-      en: "chat with gpt"
-    },
-    category: "🤖| AI",
-    guide: {
-      en: "{pn} 'prompt'\nexample:\n{pn} hi there \nyou can reply to chat\nyou can delete conversations by replying clear"
+    countDown: 5,
+    description: "Gpt4 Continuous conversation",
+    category: "ai",
+    guide: "⚠ | Invalid Format!\n" + "Please provide a prompt: {pn} prompt"
+  },
+
+  langs: {
+    en: {
+      answer: "◜squid◞\n━━━━━━━━━━━━━━━━━━\n" + "%1\n━━━━━━━━━━━━━━━━━━",
+      usage: "◜squid◞\n━━━━━━━━━━━━━━━━━━\n" + "❌ | Invalid Format\nPlease provide a message.\n━━━━━━━━━━━━━━━━━━"
     }
   },
-  onStart: async function () {},
-  onChat: async function ({ message, event, args, commandName }) {
-    const prefix = Prefixes.find((p) => event.body && event.body.toLowerCase().startsWith(p));
-      if (!prefix) {
-        return; // Invalid prefix, ignore the command
-      }
-    const prompt = args.join(" ");
-    if (!prompt) {
-      message.reply(`Please provide some text`);
+
+  onStart: async function({ event, message, args, commandName, api, getLang }) {
+    await xyxy({ event, message, args, commandName, api, getLang });
+  },
+
+  onReply: async function({ Reply, event, message, args, commandName, api, getLang }) {
+    const { author } = Reply;
+    if (author != event.senderID) {
       return;
     }
 
-    try {
-      const uid = event.senderID;
-      const response = await axios.get(
-        `https://deku-rest-api.gleeze.com/cai/chat?character=squidward&uid=${uid}&q=${encodeURIComponent(prompt)}`
-      );
-
-      if (response.data && response.data.result) {
-        message.reply(
-          {
-            body: response.data.result
-          },
-          (err, info) => {
-            global.GoatBot.onReply.set(info.messageID, {
-              commandName,
-              messageID: info.messageID,
-              author: event.senderID
-            });
-          }
-        );
-      } else {
-        console.error("API Error:", response.data);
-        sendErrorMessage(message, "Server not responding ❌");
-      }
-    } catch (error) {
-      console.error("Request Error:", error.message);
-      sendErrorMessage(message, "Server not responding ❌");
-    }
-  },
-  onReply: async function ({ message, event, Reply, args }) {
-    let { author, commandName } = Reply;
-    if (event.senderID !== author) return;
-    const prompt = args.join(" ");
-
-    try {
-      const uid = event.senderID;
-      const response = await axios.get(
-        `https://deku-rest-api.gleeze.com/cai/chat?character=squidward&uid=${uid}&q=${encodeURIComponent(prompt)}`
-      );
-
-      if (response.data && response.data.result) {
-        message.reply(
-          {
-            body: response.data.result
-          },
-          (err, info) => {
-            global.GoatBot.onReply.set(info.messageID, {
-              commandName,
-              messageID: info.messageID,
-              author: event.senderID
-            });
-          }
-        );
-      } else {
-        console.error("API Error:", response.data);
-        sendErrorMessage(message, "Server not responding ❌");
-      }
-    } catch (error) {
-      console.error("Request Error:", error.message);
-      sendErrorMessage(message, "Server not responding ❌");
-    }
+    await xyxy({ event, message, args, commandName, api, getLang });
   }
 };
 
-function sendErrorMessage(message, errorMessage) {
-  message.reply({ body: errorMessage });
-  }
+const { GoatWrapper } = require('fca-liane-utils');
+const wrapper = new GoatWrapper(module.exports);
+
+wrapper.applyNoPrefix();
