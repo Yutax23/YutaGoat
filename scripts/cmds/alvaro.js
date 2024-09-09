@@ -7,7 +7,7 @@ module.exports = {
   },
   onStart() {},
   onChat: async ({ message: { reply: r }, args: a, event: { senderID: s, body: b }, commandName, usersData }) => {
-    const allow = ["lover", "helpful", "friendly", "toxic", "bisaya", "annoyed"];
+    const allow = ["lover", "helpful", "friendly", "toxic", "bisaya", "horny"];
     const num = allow.map((i, x) => `${x + 1}. ${i}`).join("\n");
     if (!b?.toLowerCase().startsWith("ai")) return;
     var p = a.slice(1);
