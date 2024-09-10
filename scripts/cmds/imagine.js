@@ -1,82 +1,59 @@
-global.api = {
-  samirApi: "https://www.samirxpikachu.run.place"
-};
-
-const axios = require('axios');
+const fs = require("fs");
+const path = require("path");
+const axios = require("axios");
 
 module.exports = {
   config: {
     name: "imagine",
-    aliases: ["sdi"],
-    author: "Samir Œ/ Architectdevs",
+    aliases: [],
+    author: "UPoL",
     version: "1.0",
-    countDown: 60,
+    cooldowns: 5,
     role: 0,
-    shortDescription: "Generates an image from a text description",
-    longDescription: "Generates an image from a text description",
-    category: "ai",
-    guide: {
-      en: "{pn} prompt | model \n Models:\n 1: animagineXL \n 2: dreamshaperXL\n 3: dynavisionXL \n 4: juggernautXL \n 5: realismEngineSDXL \n 6:  realvisxlV40 \n 7: sd_xl_base \n 8: inpaint \n 9:turbovisionXL",
-    }
+    shortDescription: "Generate an image based on a prompt.",
+    longDescription: "Generates an image using the provided prompt.",
+    category: "image",
+    guide: "{pn} <prompt>",
   },
-
-  langs: {
-    en: {
-      loading: "Generating image, please wait...",
-      error: "An error occurred, please try again later"
+  onStart: async function ({ message, args, api, event }) {
+    const obfuscatedAuthor = String.fromCharCode(85, 80, 111, 76);
+    if (this.config.author !== obfuscatedAuthor) {
+      return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
     }
-  },
 
-  onStart: async function ({ event, message, getLang, threadsData, api, args }) {
-    const { threadID } = event;
+    const prompt = args.join(" ");
+    const apikey = 'UPoLxyzFM-69vsg';
 
-    const info = args.join(" ");
-    if (!info) {
-      return message.reply(`- baka, type your imagination!`);
-    } else {
-      const msg = info.split("|");
-      const text = msg[0];
-      const model = msg[1] || '1'; 
-      const timestamp = new Date().getTime();
+    if (!prompt) {
+      return api.sendMessage("👀 Please provide a prompt.", event.threadID);
+    }
 
-      try {
-        let msgSend = message.reply(getLang("loading"));
-        const { data } = await axios.get(
-          `${global.api.samirApi}/sdxl/generate?prompt=${text}&model=${model}`
-        );
+    api.sendMessage("⏳ Generating your imagination....", event.threadID, event.messageID);
 
-        const imageUrls = data.imageUrls[0];
-        const shortLink = await global.utils.uploadImgbb(imageUrls);
+    try {
+      const imagineApiUrl = `https://upol-ai-docs.onrender.com/imagine?prompt=${encodeURIComponent(prompt)}&apikey=${apikey}`;
 
-        let fUrl = shortLink.image.url;
-        await message.unsend((await msgSend).messageID);
-        if (imageUrls) {
-          message.reply({
-            body: `Here's your AI generated image \n prompt "${text}" \n HD download Link: ${fUrl}`,
-            attachment: await global.utils.getStreamFromURL(imageUrls)
-          });
-        } else {
-          throw new Error("Failed to fetch the generated image. Contact the administration group to resolve the issue. Group link: https://www.facebook.com/groups/761805065901067/?ref=share");
-        }
-      } catch (err) {
-        console.error(err);
-        return message.reply(getLang("error"));
+      const imagineResponse = await axios.get(imagineApiUrl, {
+        responseType: "arraybuffer"
+      });
+
+      const cacheFolderPath = path.join(__dirname, "cache");
+      if (!fs.existsSync(cacheFolderPath)) {
+        fs.mkdirSync(cacheFolderPath);
       }
+      const imagePath = path.join(cacheFolderPath, `${Date.now()}_generated_image.png`);
+      fs.writeFileSync(imagePath, Buffer.from(imagineResponse.data, "binary"));
+
+      const stream = fs.createReadStream(imagePath);
+      api.sendMessage({
+        body: "",
+        attachment: stream
+      }, event.threadID, () => {
+        fs.unlinkSync(imagePath);
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      api.sendMessage("❌ | An error occurred. Please try again later.", event.threadID, event.messageID);
     }
   }
 };
-
-function getModelName(model) {
-  switch (model) {
-    case '1': return "animagineXL";
-    case '2': return "dreamshaperXL";
-    case '3': return "dynavisionXL";
-    case '4': return "juggernautXL";
-    case '5': return "realismEngineSDXL";
-    case '6': return "realvisxlV40";
-    case '7': return "sd_xl_base";
-    case '8': return "inpaint";
-    case '9': return "turbovisionXL";
-    default: return "animagineXL";
-  }
-    }
