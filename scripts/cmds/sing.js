@@ -27,7 +27,7 @@ module.exports = {
     const songName = args.join(" ");
     if (!songName) return message.reply(getLang('syntaxError'));
 
-    api.setMessageReaction("⏳", event.messageID, () => {}, true);
+    message.reply("please wait a moment.");
 
     try {
       const url = `https://smfahim.${a}/ytb/audio?search=${encodeURIComponent(songName)}`;
@@ -38,7 +38,6 @@ module.exports = {
         attachment: await global.utils.getStreamFromURL(audioUrl, "music.mp3")
       });
 
-      api.setMessageReaction("✅", event.messageID, () => {}, true);
 
     } catch (error) {
       console.error(error);
